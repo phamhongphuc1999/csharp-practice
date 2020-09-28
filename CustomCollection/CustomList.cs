@@ -98,9 +98,11 @@ namespace CustomCollection
             }
         }
 
-        //public int BinarySearch(int item)
-        //{
-
-        //}
+        public bool Contain(T item)
+        {
+            foreach (T x in items)
+                if (item.Equals(x)) return true;
+            return false;
+        }
     }
 }
