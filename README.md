@@ -1,2 +1,1 @@
-# MyPractice
-Code By C#
+### demo generic collection in C#
