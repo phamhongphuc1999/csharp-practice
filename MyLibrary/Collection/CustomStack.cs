@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MyLibrary.Collection
 {
     public class CustomStack<T>: CustomBaseCollection<T>
     {
-
         public CustomStack()
         {
             _items = new T[10];
@@ -44,6 +44,87 @@ namespace MyLibrary.Collection
             _items = new T[_capacity];
             collection.ToArray().CopyTo(_items, 0);
             _size = count;
+        }
+
+        public int Count
+        {
+            get { return _size; }
+        }
+
+        public int Capacity
+        {
+            get { return _capacity; }
+            set
+            {
+                if (value >= _size) Array.Resize<T>(ref _items, value);
+            }
+        }
+
+        public int Step
+        {
+            get { return _step; }
+            set
+            {
+                if (value > 0) _step = value;
+            }
+        }
+
+        public void Push(T item)
+        {
+            if (_size < _capacity) _items[_size++] = item;
+            else
+            {
+                _capacity += _step;
+                Array.Resize<T>(ref _items, _capacity);
+                _items[_size++] = item;
+            }
+        }
+
+        public T Pop()
+        {
+            if (_size > 0) return _items[--_size];
+            else throw new IndexOutOfRangeException();
+        }
+
+        public T Peek()
+        {
+            if (_size > 0) return _items[_size - 1];
+            else throw new IndexOutOfRangeException();
+        }
+
+        public bool TryPop(out T result)
+        {
+            if (_size > 0)
+            {
+                result = _items[--_size];
+                return true;
+            }
+            else
+            {
+                result = default(T);
+                return false;
+            }
+        }
+
+        public bool TryPeek(out T result)
+        {
+            if (_size > 0)
+            {
+                result = _items[_size - 1];
+                return true;
+            }
+            else
+            {
+                result = default(T);
+                return false;
+            }
+        }
+
+        public bool Contain(T item)
+        {
+            foreach (T x in _items)
+                if (x.Equals(item)) return true;
+            return false;
         }
     }
 }

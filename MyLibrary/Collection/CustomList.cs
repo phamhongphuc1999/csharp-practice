@@ -47,6 +47,29 @@ namespace MyLibrary.Collection
             _size = count;
         }
 
+        public int Count
+        {
+            get { return _size; }
+        }
+
+        public int Capacity
+        {
+            get { return _capacity; }
+            set
+            {
+                if (value >= _size) Array.Resize<T>(ref _items, value);
+            }
+        }
+
+        public int Step
+        {
+            get { return _step; }
+            set
+            {
+                if (value > 0) _step = value;
+            }
+        }
+
         public T this[int index]
         {
             get
@@ -65,13 +88,12 @@ namespace MyLibrary.Collection
 
         public void Add(T item)
         {
-            if (_size < _capacity) _items[_size++] = item;
-            else
+            if(_size >= _capacity)
             {
                 _capacity += _step;
                 Array.Resize<T>(ref _items, _capacity);
-                _items[_size++] = item;
             }
+            _items[_size++] = item;
         }
 
         public void AddRange(IEnumerable<T> collection)
@@ -89,7 +111,15 @@ namespace MyLibrary.Collection
 
         public void Insert(T item, int index)
         {
-
+            if (_size >= _capacity)
+            {
+                _capacity += _step;
+                Array.Resize<T>(ref _items, _capacity);
+            }
+            T[] temp = new T[_size - index];
+            _items.CopyTo(temp, index);
+            _items[index] = item;
+            _items.Concat(temp);
         }
 
         public void InsertRange(IEnumerable<T> collection, int index)
