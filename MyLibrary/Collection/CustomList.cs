@@ -3,15 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CustomCollection
+namespace MyLibrary.Collection
 {
-    public class CustomList<T>: IEnumerable<T>
+    public class CustomList<T> : CustomBaseCollection<T>, IEnumerable<T>
     {
-        private T[] _items;
-        private int _size;
-        private int _capacity;
-        private int _step;
-
         public CustomList()
         {
             _items = new T[10];
@@ -22,7 +17,7 @@ namespace CustomCollection
 
         public CustomList(int capacity, int step)
         {
-            int _step = 1000;
+            int _step = 10;
             int _capacity = 10;
             if (step > 0) _step = step;
             if (capacity > 0) _capacity = capacity;
@@ -52,29 +47,6 @@ namespace CustomCollection
             _size = count;
         }
 
-        public int Count
-        {
-            get { return _size; }
-        }
-
-        public int Capacity
-        {
-            get { return _capacity; } 
-            set
-            {
-                if (value >= _size) Array.Resize<T>(ref _items, value);
-            }
-        }
-
-        public int Step
-        {
-            get { return _step; }
-            set
-            {
-                if (value > 0) _step = value;
-            }
-        }
-
         public T this[int index]
         {
             get
@@ -100,6 +72,29 @@ namespace CustomCollection
                 Array.Resize<T>(ref _items, _capacity);
                 _items[_size++] = item;
             }
+        }
+
+        public void AddRange(IEnumerable<T> collection)
+        {
+            int count = collection.Count();
+            int size = _size + count;
+            if (size > _capacity)
+            {
+                _capacity = 10 * (size / 10) + 10;
+                Array.Resize<T>(ref _items, _capacity);
+            }
+            collection.ToArray().CopyTo(_items, _size);
+            _size = size;
+        }
+
+        public void Insert(T item, int index)
+        {
+
+        }
+
+        public void InsertRange(IEnumerable<T> collection, int index)
+        {
+
         }
 
         public bool Contain(T item)
