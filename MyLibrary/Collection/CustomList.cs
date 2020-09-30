@@ -111,20 +111,31 @@ namespace MyLibrary.Collection
 
         public void Insert(T item, int index)
         {
-            if (_size >= _capacity)
+            if(_size >= _capacity)
             {
                 _capacity += _step;
                 Array.Resize<T>(ref _items, _capacity);
             }
-            T[] temp = new T[_size - index];
-            _items.CopyTo(temp, index);
+            for(int _index = _size; _index > index; _index--)
+                _items[_index] = _items[_index - 1];
             _items[index] = item;
-            _items.Concat(temp);
+            _size += 1;
         }
 
         public void InsertRange(IEnumerable<T> collection, int index)
         {
-
+            int count = collection.Count();
+            int size = _size + count;
+            if(size > _capacity)
+            {
+                _capacity = 10 * (size / 10) + 10;
+                Array.Resize<T>(ref _items, _capacity);
+            }
+            for(int _index = _size - 1; _index >= index; _index--)
+                _items[_index + count] = _items[_index];
+            for (int i = 0; i < count; i++)
+                _items[i + index] = collection.ElementAt(i);
+            _size += count;
         }
 
         public bool Contain(T item)
