@@ -92,6 +92,25 @@ namespace MyLibrary.Collection
             else throw new IndexOutOfRangeException();
         }
 
+        public void Clean()
+        {
+            Array.Resize(ref _items, 10);
+            _size = 0;
+            _capacity = 10;
+        }
+
+        public int[] ToArray()
+        {
+            int[] result = new int[_size];
+            result.CopyTo(_items, 0);
+            return result;
+        }
+
+        public override string ToString()
+        {
+            return this.Peek().ToString();
+        }
+
         public bool TryPop(out T result)
         {
             if (_size > 0)

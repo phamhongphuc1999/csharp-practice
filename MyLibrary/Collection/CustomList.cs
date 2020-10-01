@@ -88,7 +88,7 @@ namespace MyLibrary.Collection
 
         public void Add(T item)
         {
-            if(_size >= _capacity)
+            if (_size >= _capacity)
             {
                 _capacity += _step;
                 Array.Resize<T>(ref _items, _capacity);
@@ -111,12 +111,12 @@ namespace MyLibrary.Collection
 
         public void Insert(T item, int index)
         {
-            if(_size >= _capacity)
+            if (_size >= _capacity)
             {
                 _capacity += _step;
                 Array.Resize<T>(ref _items, _capacity);
             }
-            for(int _index = _size; _index > index; _index--)
+            for (int _index = _size; _index > index; _index--)
                 _items[_index] = _items[_index - 1];
             _items[index] = item;
             _size += 1;
@@ -126,16 +126,44 @@ namespace MyLibrary.Collection
         {
             int count = collection.Count();
             int size = _size + count;
-            if(size > _capacity)
+            if (size > _capacity)
             {
                 _capacity = 10 * (size / 10) + 10;
                 Array.Resize<T>(ref _items, _capacity);
             }
-            for(int _index = _size - 1; _index >= index; _index--)
+            for (int _index = _size - 1; _index >= index; _index--)
                 _items[_index + count] = _items[_index];
             for (int i = 0; i < count; i++)
                 _items[i + index] = collection.ElementAt(i);
             _size += count;
+        }
+
+        public void CopyTo(T[] array, int index)
+        {
+            if (array.Length < _size - index) throw new OutOfMemoryException();
+            for (int i = index; i < _size; i++)
+                array[i] = _items[i];
+        }
+
+        public void CopyTo(T[] array, int index, Func<T, T> func)
+        {
+            if (array.Length < _size - index) throw new OutOfMemoryException();
+            for (int i = index; i < _size; i++)
+                array[i] = func(_items[i]);
+        }
+
+        public void Clean()
+        {
+            _capacity = 10;
+            Array.Resize(ref _items, _capacity);
+            _size = 0;
+        }
+
+        public int[] ToArray()
+        {
+            int[] result = new int[_size];
+            result.CopyTo(_items, 0);
+            return result;
         }
 
         public bool Contain(T item)
@@ -143,6 +171,20 @@ namespace MyLibrary.Collection
             foreach (T x in _items)
                 if (item.Equals(x)) return true;
             return false;
+        }
+
+        public void ForEach(Action<T> action)
+        {
+            foreach (T item in _items)
+                action(item);
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+            foreach (T item in _items)
+                result += item.ToString() + " ";
+            return result;
         }
 
         public IEnumerator<T> GetEnumerator()
