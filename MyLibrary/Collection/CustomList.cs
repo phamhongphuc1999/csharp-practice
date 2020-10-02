@@ -5,8 +5,13 @@ using System.Linq;
 
 namespace MyLibrary.Collection
 {
-    public class CustomList<T> : CustomBaseCollection<T>, IEnumerable<T>
+    public class CustomList<T> : IEnumerable<T>
     {
+        protected T[] _items;
+        protected int _size;
+        protected int _capacity;
+        protected int _step;
+
         public CustomList()
         {
             _items = new T[10];
@@ -57,7 +62,11 @@ namespace MyLibrary.Collection
             get { return _capacity; }
             set
             {
-                if (value >= _size) Array.Resize<T>(ref _items, value);
+                if (value >= _capacity)
+                {
+                    _capacity = value;
+                    Array.Resize<T>(ref _items, _capacity);
+                }
             }
         }
 
