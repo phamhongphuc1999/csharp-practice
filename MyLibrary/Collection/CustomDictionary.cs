@@ -1,10 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MyLibrary.Collection
+﻿namespace MyLibrary.Collection
 {
+    public class KeyValueData<TKey, TValue>
+    {
+        private TKey key;
+        private TValue value;
+
+        public KeyValueData()
+        {
+        }
+
+        public KeyValueData(TKey key, TValue value)
+        {
+            this.key = key;
+            this.value = value;
+        }
+
+        public TKey Key
+        {
+            get { return key; }
+        }
+
+        public TValue Value
+        {
+            get { return value; }
+        }
+    }
+
     public class CustomDictionary
     {
+        
     }
 }
