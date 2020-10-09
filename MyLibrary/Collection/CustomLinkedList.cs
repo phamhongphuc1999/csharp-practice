@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MyLibrary.Collection
@@ -15,9 +17,42 @@ namespace MyLibrary.Collection
             this.next = null;
             this.prev = null;
         }
+
+        public static NodeData<T> operator ++(NodeData<T> node)
+        {
+            node = node.next;
+            return node;
+        }
+
+        public static NodeData<T> operator +(NodeData<T> node, int value)
+        {
+            int count = 0;
+            while (node != null && count < value)
+                node = node.next;
+            return node;
+        }
+
+        public static NodeData<T> operator -(NodeData<T> node, int value)
+        {
+            int count = 0;
+            while (node != null && count < value)
+                node = node.prev;
+            return node;
+        }
+
+        public static NodeData<T> operator --(NodeData<T> node)
+        {
+            node = node.prev;
+            return node;
+        }
+
+        public override string ToString()
+        {
+            return data.ToString();
+        }
     }
 
-    public class CustomLinkedList<T>
+    public class CustomLinkedList<T> : IEnumerable<NodeData<T>>
     {
         protected int _size;
         protected NodeData<T> begin;
@@ -26,6 +61,7 @@ namespace MyLibrary.Collection
         public CustomLinkedList()
         {
             begin = end = null;
+            _size = 0;
         }
 
         public CustomLinkedList(IEnumerable<T> collection)
@@ -34,7 +70,7 @@ namespace MyLibrary.Collection
             NodeData<T> pNext = begin;
             NodeData<T> pPrev = null;
             int count = collection.Count();
-            for(int i = 1; i < count; i++)
+            for (int i = 1; i < count; i++)
             {
                 NodeData<T> next = new NodeData<T>(collection.ElementAt(i));
                 pNext.next = next;
@@ -43,17 +79,48 @@ namespace MyLibrary.Collection
                 pNext = next;
             }
             end = pNext;
+            _size = count;
         }
 
-        public NodeData<T>? First
+        public NodeData<T> this[int index]
+        {
+            get
+            {
+                if (_size <= index) throw new IndexOutOfRangeException();
+                NodeData<T> result = begin;
+                for (int i = 0; i < index; i += 1)
+                    result = result.next;
+                return result;
+            }
+            set
+            {
+                if (_size <= index) throw new IndexOutOfRangeException();
+                NodeData<T> result = begin;
+                for (int i = 0; i < index; i += 1)
+                    result = result.next;
+                result = value;
+            }
+        }
+
+        public NodeData<T> First
         {
             get { return begin; }
+        }
+
+        public NodeData<T> Last
+        {
+            get { return end; }
+        }
+
+        public int Count
+        {
+            get { return _size; }
         }
 
         public NodeData<T> Find(T value)
         {
             NodeData<T> pTemp = begin;
-            while(pTemp != null)
+            while (pTemp != null)
             {
                 if (pTemp.data.Equals(value)) return pTemp;
                 pTemp = pTemp.next;
@@ -64,7 +131,7 @@ namespace MyLibrary.Collection
         public NodeData<T> FindLast(T value)
         {
             NodeData<T> pTemp = end;
-            while(pTemp != null)
+            while (pTemp != null)
             {
                 if (pTemp.prev.data.Equals(value)) return pTemp;
                 pTemp = pTemp.prev;
@@ -77,34 +144,130 @@ namespace MyLibrary.Collection
             NodeData<T> node = new NodeData<T>(value);
             node.next = begin;
             begin = node;
+            if (_size == 0) end = node;
+            _size += 1;
             return node;
         }
-        
+
         public void AddFirst(NodeData<T> node)
         {
             node.next = begin;
             node.prev = null;
             begin = node;
+            if (_size == 0) end = node;
+            _size += 1;
         }
 
         public NodeData<T> AddLast(T value)
         {
             NodeData<T> node = new NodeData<T>(value);
-            end.next = node;
-            end = node;
+            if (_size == 0) begin = end = node;
+            else
+            {
+                end.next = node;
+                end = node;
+            }
+            _size += 1;
             return node;
         }
 
         public void AddLast(NodeData<T> node)
         {
-            end.next = node;
-            node.next = null;
-            end = node;
+            if (_size == 0) begin = end = node;
+            else
+            {
+                end.next = node;
+                node.next = null;
+                end = node;
+            }
+            _size += 1;
         }
 
-        //public NodeData<T> AddAfter()
-        //{
+        public NodeData<T> AddAfter(int index, T value)
+        {
+            if (_size <= index) throw new IndexOutOfRangeException();
+            NodeData<T> node = new NodeData<T>(value);
+            NodeData<T> indexNode = this[index];
+            node.next = indexNode.next;
+            node.prev = indexNode;
+            indexNode.next = node;
+            return node;
+        }
 
-        //}
+        public void AddAfter(int index, NodeData<T> node)
+        {
+            if (_size <= index) throw new IndexOutOfRangeException();
+            NodeData<T> indexNode = this[index];
+            node.next = indexNode.next;
+            node.prev = indexNode;
+            indexNode.next = node;
+        }
+
+        public void Remove(int index)
+        {
+            if (index >= 0 && index < _size)
+            {
+                NodeData<T> removeNode = this[index];
+                NodeData<T> prevNode = removeNode.prev;
+                NodeData<T> nextNode = removeNode.next;
+                if (prevNode != null) prevNode.next = nextNode;
+                if (nextNode != null) nextNode.prev = prevNode;
+            }
+        }
+
+        public void ForEach(Action<NodeData<T>> action)
+        {
+            NodeData<T> node = begin;
+            while (node != null)
+            {
+                action(node);
+                node = node.next;
+            }
+        }
+
+        public IEnumerator<NodeData<T>> GetEnumerator()
+        {
+            return (IEnumerator<NodeData<T>>)new CustomLinkedListEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        private class CustomLinkedListEnumerator : IEnumerator<NodeData<T>>
+        {
+            private CustomLinkedList<T> list;
+            private NodeData<T> begin;
+
+            public CustomLinkedListEnumerator(CustomLinkedList<T> list)
+            {
+                this.list = list;
+                begin = null;
+            }
+
+            public NodeData<T> Current
+            {
+                get { return begin; }
+            }
+
+            object IEnumerator.Current => throw new NotImplementedException();
+
+            public void Dispose()
+            {
+            }
+
+            public bool MoveNext()
+            {
+                begin = begin.next;
+                if (begin == null) return false;
+                return true;
+            }
+
+            public void Reset()
+            {
+                begin = null;
+            }
+        }
     }
 }

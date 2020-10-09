@@ -211,7 +211,7 @@ namespace MyLibrary.Collection
 
         public IEnumerator<T> GetEnumerator()
         {
-            return (IEnumerator<T>)new CustomListtEnumerator(this);
+            return (IEnumerator<T>)new CustomListEnumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -219,12 +219,12 @@ namespace MyLibrary.Collection
             throw new NotImplementedException();
         }
 
-        private class CustomListtEnumerator : IEnumerator<T>
+        private class CustomListEnumerator : IEnumerator<T>
         {
             private CustomList<T> list;
             private int index;
 
-            public CustomListtEnumerator(CustomList<T> list)
+            public CustomListEnumerator(CustomList<T> list)
             {
                 this.list = list;
                 index = -1;

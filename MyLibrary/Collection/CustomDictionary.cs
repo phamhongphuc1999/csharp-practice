@@ -24,6 +24,11 @@
         {
             get { return value; }
         }
+
+        public override string ToString()
+        {
+            return $"({Key.ToString()}, {Value.ToString()})";
+        }
     }
 
     public class CustomDictionary
