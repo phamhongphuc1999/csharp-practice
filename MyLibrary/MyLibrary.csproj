@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Collection\CustomLinkList.cs~RF81d798e.TMP" />
+  </ItemGroup>
+
 </Project>

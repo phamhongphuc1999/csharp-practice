@@ -8,13 +8,13 @@ namespace MyLibrary.Collection
         public Data<T> next;
         public T data;
 
-        public Data(Data<T> next, T data)
+        public Data(Data<T> next, ref T data)
         {
             this.next = next;
             this.data = data;
         }
 
-        public Data(T data)
+        public Data(ref T data)
         {
             this.data = data;
             this.next = null;
@@ -34,8 +34,9 @@ namespace MyLibrary.Collection
 
         public CustomLinkList(IEnumerable<T> collection)
         {
-            Data<T> first = new Data<T>(collection.ElementAt(0));
-            begin = first;
+            T temp = collection.ElementAt(0);
+            begin = new Data<T>(ref temp);
+
             int count = collection.Count();
             for(int i = 1; i < count; i++)
             {

@@ -188,6 +188,19 @@ namespace MyLibrary.Collection
                 action(item);
         }
 
+        public static CustomList<T> operator +(CustomList<T> collection1, CustomList<T> collection2)
+        {
+            int count1 = collection1.Count;
+            int count2 = collection2.Count;
+            int size = count1 + count2;
+            CustomList<T> result = new CustomList<T>(size);
+            for (int i = 0; i < count1; i++)
+                result[i] = collection1[i];
+            for (int i = count1; i < size; i++)
+                result[i] = collection2[i];
+            return result;
+        }
+
         public override string ToString()
         {
             string result = "";
