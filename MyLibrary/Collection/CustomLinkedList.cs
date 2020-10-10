@@ -32,6 +32,12 @@ namespace MyLibrary.Collection
             return node;
         }
 
+        public static NodeData<T> operator --(NodeData<T> node)
+        {
+            node = node.prev;
+            return node;
+        }
+
         public static NodeData<T> operator -(NodeData<T> node, int value)
         {
             int count = 0;
@@ -40,15 +46,21 @@ namespace MyLibrary.Collection
             return node;
         }
 
-        public static NodeData<T> operator --(NodeData<T> node)
-        {
-            node = node.prev;
-            return node;
-        }
-
         public override string ToString()
         {
             return data.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            NodeData<T> node = obj as NodeData<T>;
+            if (node == null) return false;
+            return this.data.Equals(node.data);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 
@@ -86,7 +98,7 @@ namespace MyLibrary.Collection
         {
             get
             {
-                if (_size <= index) throw new IndexOutOfRangeException();
+                if (_size <= index || index < 0) throw new IndexOutOfRangeException();
                 NodeData<T> result = begin;
                 for (int i = 0; i < index; i += 1)
                     result = result.next;
@@ -94,13 +106,25 @@ namespace MyLibrary.Collection
             }
             set
             {
-                if (_size <= index) throw new IndexOutOfRangeException();
+                if (_size <= index || index < 0) throw new IndexOutOfRangeException();
                 NodeData<T> result = begin;
                 for (int i = 0; i < index; i += 1)
                     result = result.next;
                 result = value;
             }
         }
+
+        public void Concat(CustomLinkedList<T> nodeList)
+        {
+            this.end.next = nodeList.begin;
+            this.end = nodeList.end;
+            _size += nodeList.Count;
+        }
+
+        //public (CustomLinkedList<T>, CustomLinkedList<T>) Splip(int splip)
+        //{
+
+        //}
 
         public NodeData<T> First
         {
@@ -185,7 +209,7 @@ namespace MyLibrary.Collection
 
         public NodeData<T> AddAfter(int index, T value)
         {
-            if (_size <= index) throw new IndexOutOfRangeException();
+            if (_size <= index || index < 0) throw new IndexOutOfRangeException();
             NodeData<T> node = new NodeData<T>(value);
             NodeData<T> indexNode = this[index];
             node.next = indexNode.next;
@@ -196,11 +220,31 @@ namespace MyLibrary.Collection
 
         public void AddAfter(int index, NodeData<T> node)
         {
-            if (_size <= index) throw new IndexOutOfRangeException();
+            if (_size <= index || index < 0) throw new IndexOutOfRangeException();
             NodeData<T> indexNode = this[index];
             node.next = indexNode.next;
             node.prev = indexNode;
             indexNode.next = node;
+        }
+
+        public NodeData<T> AddBefore(int index, T value)
+        {
+            if (_size <= index || index < 0) throw new IndexOutOfRangeException();
+            NodeData<T> node = new NodeData<T>(value);
+            NodeData<T> indexNode = this[index];
+            node.next = indexNode;
+            node.prev = indexNode.prev;
+            indexNode.prev.next = node;
+            return node;
+        }
+
+        public void AddBefore(int index, NodeData<T> node)
+        {
+            if (_size <= index || index < 0) throw new IndexOutOfRangeException();
+            NodeData<T> indexNode = this[index];
+            node.next = indexNode;
+            node.prev = indexNode.prev;
+            indexNode.prev.next = node;
         }
 
         public void Remove(int index)
@@ -212,6 +256,43 @@ namespace MyLibrary.Collection
                 NodeData<T> nextNode = removeNode.next;
                 if (prevNode != null) prevNode.next = nextNode;
                 if (nextNode != null) nextNode.prev = prevNode;
+                _size--;
+            }
+        }
+
+        public void RemoveFirst(T value)
+        {
+            NodeData<T> temp = begin;
+            while(temp != null)
+            {
+                if (temp.data.Equals(value))
+                {
+                    NodeData<T> prevNode = temp.prev;
+                    NodeData<T> nextNode = temp.next;
+                    if (prevNode != null) prevNode.next = nextNode;
+                    if (nextNode != null) nextNode.prev = prevNode;
+                    --_size;
+                    break;
+                }
+                temp++;
+            }
+        }
+
+        public void RemoveLast(T value)
+        {
+            NodeData<T> temp = end;
+            while(temp != null)
+            {
+                if (temp.data.Equals(value))
+                {
+                    NodeData<T> prevNode = temp.prev;
+                    NodeData<T> nextNode = temp.next;
+                    if (prevNode != null) prevNode.next = nextNode;
+                    if (nextNode != null) nextNode.prev = prevNode;
+                    --_size;
+                    break;
+                }
+                temp--;
             }
         }
 
@@ -223,6 +304,14 @@ namespace MyLibrary.Collection
                 action(node);
                 node = node.next;
             }
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+            NodeData<T> pTemp = begin;
+            while (pTemp != null) result += pTemp.ToString();
+            return result;
         }
 
         public IEnumerator<NodeData<T>> GetEnumerator()

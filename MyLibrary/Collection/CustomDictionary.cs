@@ -31,6 +31,11 @@
         }
     }
 
+    //internal class HashClass
+    //{
+    //    public static int HashBaseASCII()
+    //}
+
     public class CustomDictionary
     {
         
