@@ -121,11 +121,6 @@ namespace MyLibrary.Collection
             _size += nodeList.Count;
         }
 
-        //public (CustomLinkedList<T>, CustomLinkedList<T>) Splip(int splip)
-        //{
-
-        //}
-
         public NodeData<T> First
         {
             get { return begin; }

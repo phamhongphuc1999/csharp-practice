@@ -8,8 +8,4 @@
     <None Remove="Collection\CustomLinkList.cs~RF81d798e.TMP" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ThreadFile\" />
-  </ItemGroup>
-
 </Project>
