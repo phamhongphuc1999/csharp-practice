@@ -4,7 +4,8 @@ using System.Text;
 
 namespace MyLibrary.CustomConsole
 {
-    class Terminal
+    public class Terminal
     {
+
     }
 }
