@@ -6,7 +6,8 @@
         {
             HEADER = 0,
             END = 1,
-            MIDDLE = 2
+            MIDDLE = 2,
+            RANDOM = 3
         }
     }
 }
