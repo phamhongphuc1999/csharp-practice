@@ -22,25 +22,29 @@ namespace MyLibrary.ArangeAlgorithm
                     }
                 }
             }
-            return source;
+            return arr;
         }
 
-        //private static int PartitionHeader<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
-        //{
-        //    T pivot = source[low];
-        //    int left = low;
-        //    int right = hight - 1;
-        //    while (true)
-        //    {
-        //        while (true)
-        //        {
-        //            while (comparer(source[left], pivot) && (left <= right)) left++;
-        //            while (comparer(pivot, source[right]) && (right >= left)) right--;
-        //            if (left >= right) break;
-        //            T temp = 
-        //        }
-        //    }
-        //}
+        public static int PartitionHeader<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
+        {
+            T pivot = source[low];
+            int left = low;
+            int right = hight - 1;
+            while (true)
+            {
+                while (comparer(source[left], pivot) && (left <= right)) left++;
+                while (comparer(pivot, source[right]) && (right >= left)) right--;
+                if (left >= right) break;
+                T temp = source[left];
+                source[left] = source[right];
+                source[right] = temp;
+            }
+            T temp1 = source[low];
+            source[low] = source[right];
+            source[right] = temp1;
+            return left;
+
+        }
 
         //public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, Config.QuickSortPivot pivot)
         //{
