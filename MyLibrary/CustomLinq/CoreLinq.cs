@@ -32,6 +32,26 @@ namespace MyLibrary.CustomLinq
                 yield return item;
         }
 
+        public static IEnumerable<T> CustomConcatWithoutSame<T>(this IEnumerable<T> source, IEnumerable<T> second)
+        {
+            Dictionary<T, int> temp = new Dictionary<T, int>();
+            foreach (T item in source)
+                temp[item] = 1;
+            foreach (T item in second)
+                temp[item] = 1;
+            foreach (KeyValuePair<T, int> item in temp)
+                yield return item.Key;
+        }
+
+        public static IEnumerable<T> CustomRemoveSame<T>(this IEnumerable<T> source)
+        {
+            Dictionary<T, int> temp = new Dictionary<T, int>();
+            foreach (T item in source)
+                temp[item] = 1;
+            foreach (KeyValuePair<T, int> item in temp)
+                yield return item.Key;
+        }
+
         public static int CustomCount<T>(this IEnumerable<T> source)
         {
             int count = 0;

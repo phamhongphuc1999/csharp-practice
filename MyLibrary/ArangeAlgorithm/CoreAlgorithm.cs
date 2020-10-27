@@ -39,7 +39,7 @@ namespace MyLibrary.ArangeAlgorithm
                     T temp = source[left];
                     source[left] = source[right];
                     source[right] = temp;
-                    left++; right++;
+                    left++; right--;
                 }
                 else break;
             }
@@ -75,16 +75,18 @@ namespace MyLibrary.ArangeAlgorithm
 
         private static void QuickListSort<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer, Config.QuickSortPivot pivot)
         {
-            if(low < hight)
+            if (low < hight)
             {
                 if(pivot == Config.QuickSortPivot.HEADER)
                 {
                     int partition = PartitionHeader<T>(source, low, hight, comparer);
                     QuickListSort<T>(source, low, partition - 1, comparer, pivot);
+                    QuickListSort<T>(source, partition + 1, hight, comparer, pivot);
                 }
                 else
                 {
                     int partition = PartitionEnd<T>(source, low, hight, comparer);
+                    QuickListSort<T>(source, low, partition - 1, comparer, pivot);
                     QuickListSort<T>(source, partition + 1, hight, comparer, pivot);
                 }
             }
@@ -94,6 +96,29 @@ namespace MyLibrary.ArangeAlgorithm
         {
             List<T> list = source.ToList();
             QuickListSort<T>(list, 0, list.Count - 1, comparer, pivot);
+            return list;
+        }
+
+        private static void Merge<T>(List<T> source, int begin, int end, int splip, Func<T, T, bool> comparer)
+        {
+
+        }
+
+        private static void MergeListSort<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
+        {
+            if(begin < end - 1)
+            {
+                int splip = (begin + end) / 2;
+                MergeListSort(source, begin, splip, comparer);
+                MergeListSort(source, splip + 1, end, comparer);
+                Merge(source, begin, end, splip, comparer);
+            }
+        }
+
+        public static IEnumerable<T> MergeSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer)
+        {
+            List<T> list = source.ToList();
+            MergeListSort<T>(list, 0, list.Count - 1, comparer);
             return list;
         }
     }
