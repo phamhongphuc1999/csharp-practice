@@ -25,30 +25,76 @@ namespace MyLibrary.ArangeAlgorithm
             return arr;
         }
 
-        public static int PartitionHeader<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
+        private static int PartitionHeader<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
         {
-            T pivot = source[low];
-            int left = low;
-            int right = hight - 1;
-            while (true)
+            int left = low + 1;
+            int right = hight;
+            T partition = source[low];
+            while(true)
             {
-                while (comparer(source[left], pivot) && (left <= right)) left++;
-                while (comparer(pivot, source[right]) && (right >= left)) right--;
-                if (left >= right) break;
-                T temp = source[left];
-                source[left] = source[right];
-                source[right] = temp;
+                while (left <= hight && comparer(source[left], partition)) left++;
+                while (right >= low && comparer(partition, source[right])) right--;
+                if (left < right)
+                {
+                    T temp = source[left];
+                    source[left] = source[right];
+                    source[right] = temp;
+                    left++; right++;
+                }
+                else break;
             }
-            T temp1 = source[low];
-            source[low] = source[right];
-            source[right] = temp1;
-            return left;
-
+            T temp1 = source[right];
+            source[right] = source[low];
+            source[low] = temp1;
+            return right;
         }
 
-        //public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, Config.QuickSortPivot pivot)
-        //{
+        private static int PartitionEnd<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
+        {
+            int left = low;
+            int right = hight - 1;
+            T partition = source[hight];
+            while (true)
+            {
+                while (left <= hight && comparer(source[left], partition)) left++;
+                while (right >= low && comparer(partition, source[right])) right--;
+                if (left < right)
+                {
+                    T temp = source[left];
+                    source[left] = source[right];
+                    source[right] = temp;
+                    left++; right--;
+                }
+                else break;
+            }
+            T temp1 = source[left];
+            source[left] = source[hight];
+            source[hight] = temp1;
+            return left;
+        }
 
-        //}
+        private static void QuickListSort<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer, Config.QuickSortPivot pivot)
+        {
+            if(low < hight)
+            {
+                if(pivot == Config.QuickSortPivot.HEADER)
+                {
+                    int partition = PartitionHeader<T>(source, low, hight, comparer);
+                    QuickListSort<T>(source, low, partition - 1, comparer, pivot);
+                }
+                else
+                {
+                    int partition = PartitionEnd<T>(source, low, hight, comparer);
+                    QuickListSort<T>(source, partition + 1, hight, comparer, pivot);
+                }
+            }
+        }
+
+        public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, Config.QuickSortPivot pivot)
+        {
+            List<T> list = source.ToList();
+            QuickListSort<T>(list, 0, list.Count - 1, comparer, pivot);
+            return list;
+        }
     }
 }
