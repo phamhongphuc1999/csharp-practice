@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyLibrary.Collection
+namespace MyLibrary.Collection.Queue
 {
     internal class Support
     {

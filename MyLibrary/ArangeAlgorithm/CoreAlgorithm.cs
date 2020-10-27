@@ -99,9 +99,24 @@ namespace MyLibrary.ArangeAlgorithm
             return list;
         }
 
-        private static void Merge<T>(List<T> source, int begin, int end, int splip, Func<T, T, bool> comparer)
+        public static void Merge<T>(List<T> source, int begin, int end, int splip, Func<T, T, bool> comparer)
         {
-
+            int lowLength = splip - begin + 1;
+            int hightLength = end - splip;
+            T[] low = new T[lowLength];
+            T[] hight = new T[hightLength];
+            for (int i = 0; i < lowLength; i++)
+                low[i] = source[i];
+            for (int i = 0; i < hightLength; i++)
+                hight[i] = source[i + splip];
+            int cLow = 0, cHight = 0, cSource = begin;
+            while(cLow < lowLength && cHight < hightLength)
+            {
+                if (comparer(low[cLow], hight[cHight])) source[cSource++] = low[cLow++];
+                else source[cSource++] = hight[cHight++];
+            }
+            while (cLow < lowLength) source[cSource++] = low[cLow++];
+            while (cHight < hightLength) source[cSource++] = hight[cHight++];
         }
 
         private static void MergeListSort<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
