@@ -1,4 +1,4 @@
-﻿namespace MyLibrary.Collection.LinkCollection
+﻿namespace MyLibrary.Collection.LinkedCollection
 {
     public class SingleNodeData<T>
     {

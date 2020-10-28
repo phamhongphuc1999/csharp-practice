@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyLibrary.Collection.LinkCollection
+namespace MyLibrary.Collection.LinkedCollection
 {
     public class DoubleLinkedList<T> : IEnumerable<DoubleNodeData<T>>
     {
@@ -58,6 +58,7 @@ namespace MyLibrary.Collection.LinkCollection
         public void Concat(DoubleLinkedList<T> nodeList)
         {
             this.end.next = nodeList.begin;
+            nodeList.begin.prev = this.end;
             this.end = nodeList.end;
             _size += nodeList.Count;
         }
@@ -121,25 +122,19 @@ namespace MyLibrary.Collection.LinkCollection
         public DoubleNodeData<T> AddLast(T value)
         {
             DoubleNodeData<T> node = new DoubleNodeData<T>(value);
-            if (_size == 0) begin = end = node;
-            else
-            {
-                end.next = node;
-                end = node;
-            }
+            end.next = node;
+            end = node;
+            if (_size == 0) begin = node;
             _size += 1;
             return node;
         }
 
         public void AddLast(DoubleNodeData<T> node)
         {
-            if (_size == 0) begin = end = node;
-            else
-            {
-                end.next = node;
-                node.next = null;
-                end = node;
-            }
+            end.next = node;
+            node.next = null;
+            end = node;
+            if (_size == 0) begin = node;
             _size += 1;
         }
 

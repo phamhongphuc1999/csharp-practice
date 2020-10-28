@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MyLibrary.Collection.LinkCollection
+namespace MyLibrary.Collection.LinkedCollection
 {
     public class PrioritySingleLinkedList<T>: IEnumerable<SingleNodeData<T>>
     {
@@ -18,7 +18,6 @@ namespace MyLibrary.Collection.LinkCollection
         public PrioritySingleLinkedList(IEnumerable<T> collection, Func<T, T, bool> priority)
         {
             this.priority = priority;
-            
         }
 
         public IEnumerator<SingleNodeData<T>> GetEnumerator()
