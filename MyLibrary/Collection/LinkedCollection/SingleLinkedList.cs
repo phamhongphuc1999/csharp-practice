@@ -42,14 +42,6 @@ namespace MyLibrary.Collection.LinkedCollection
                     result = result.next;
                 return result;
             }
-            set
-            {
-                if (_size <= index || index < 0) throw new IndexOutOfRangeException();
-                SingleNodeData<T> result = begin;
-                for (int i = 0; i < index; i += 1)
-                    result = result.next;
-                result = value;
-            }
         }
 
         public void Concat(SingleLinkedList<T> nodeList)
@@ -134,33 +126,57 @@ namespace MyLibrary.Collection.LinkedCollection
             _size++;
         }
 
-        //public SingleNodeData<T> AddAfter(int index, T value)
-        //{
-        //    if (index >= _size || index < 0) throw new ArgumentOutOfRangeException();
-        //}
+        public SingleNodeData<T> AddAfter(int index, T value)
+        {
+            if (index >= _size || index < 0) throw new ArgumentOutOfRangeException();
+            SingleNodeData<T> pTemp = begin;
+            for (int i = 1; i < index; i++)
+                pTemp++;
+            SingleNodeData<T> node = new SingleNodeData<T>(value);
+            SingleNodeData<T> next = pTemp.next;
+            pTemp.next = node;
+            node.next = next;
+            return node;
+        }
 
         public void AddAfter(int index, SingleNodeData<T> node)
         {
             if (index >= _size || index < 0) throw new ArgumentOutOfRangeException();
-
+            SingleNodeData<T> pTemp = begin;
+            for (int i = 1; i < index; i++)
+                pTemp++;
+            SingleNodeData<T> next = pTemp.next;
+            pTemp.next = node;
+            node.next = next;
         }
 
-        //public SingleNodeData<T> AddBefore(int index, T value)
-        //{
-        //    if (index >= _size || index < 0) throw new ArgumentOutOfRangeException();
-
-        //}
+        public SingleNodeData<T> AddBefore(int index, T value)
+        {
+            if (index >= _size || index < 0) throw new ArgumentOutOfRangeException();
+            SingleNodeData<T> pTemp = begin;
+            for (int i = 1; i <= index; i++)
+                pTemp++;
+            SingleNodeData<T> node = new SingleNodeData<T>(value);
+            SingleNodeData<T> next = pTemp.next;
+            pTemp.next = node;
+            node.next = next;
+            return node;
+        }
 
         public void AddBefore(int index, SingleNodeData<T> node)
         {
             if (index >= _size || index < 0) throw new ArgumentOutOfRangeException();
-
+            SingleNodeData<T> pTemp = begin;
+            for (int i = 1; i <= index; i++)
+                pTemp++;
+            SingleNodeData<T> next = pTemp.next;
+            pTemp.next = node;
+            node.next = next;
         }
 
         public IEnumerator<SingleNodeData<T>> GetEnumerator()
         {
-            //return (IEnumerator<SingleNodeData<T>>)new SingleLinkedListEnumerator(this);
-            throw new NotImplementedException();
+            return (IEnumerator<SingleNodeData<T>>)new SingleLinkedListEnumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -170,23 +186,33 @@ namespace MyLibrary.Collection.LinkedCollection
 
         private class SingleLinkedListEnumerator : IEnumerator<SingleNodeData<T>>
         {
+            private SingleLinkedList<T> list;
+            private SingleNodeData<T> begin;
+
+            public SingleLinkedListEnumerator(SingleLinkedList<T> list)
+            {
+                this.list = list;
+                begin = null;
+            }
+
             public SingleNodeData<T> Current => throw new NotImplementedException();
 
             object IEnumerator.Current => throw new NotImplementedException();
 
             public void Dispose()
             {
-                throw new NotImplementedException();
             }
 
             public bool MoveNext()
             {
-                throw new NotImplementedException();
+                begin = begin.next;
+                if (begin == null) return false;
+                return true;
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                begin = null;
             }
         }
     }
