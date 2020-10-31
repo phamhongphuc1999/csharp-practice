@@ -47,27 +47,6 @@ namespace MyLibrary.Collection.LinkedCollection
             }
         }
 
-        private static int PrivateBinarySearch(PrioritySingleLinkedList<T> list, T value, Func<T, T, bool> comparer, int begin, int end)
-        {
-            if(begin == end)
-            {
-                T temp = list[begin].data;
-                if (temp.Equals(value)) return begin;
-                else return -1;
-            }
-            int middle = (begin + end) / 2;
-            T mTemp = list[middle].data;
-            if (mTemp.Equals(value)) return middle;
-            else if (comparer(value, mTemp))
-                return PrivateBinarySearch(list, value, comparer, middle + 1, end);
-            else return PrivateBinarySearch(list, value, comparer, begin, middle);
-        }
-
-        public static int BinarySearch(PrioritySingleLinkedList<T> list, T value, Func<T, T, bool> comparer)
-        {
-            return PrioritySingleLinkedList<T>.PrivateBinarySearch(list, value, comparer, 0, list.Count);
-        }
-
         public IEnumerator<SingleNodeData<T>> GetEnumerator()
         {
             throw new NotImplementedException();

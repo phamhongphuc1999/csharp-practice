@@ -92,7 +92,7 @@ namespace MyLibrary.ArangeAlgorithm
             }
         }
 
-        public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, Config.QuickSortPivot pivot)
+        public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, Config.QuickSortPivot pivot = Config.QuickSortPivot.HEADER)
         {
             List<T> list = source.ToList();
             QuickListSort<T>(list, 0, list.Count - 1, comparer, pivot);
