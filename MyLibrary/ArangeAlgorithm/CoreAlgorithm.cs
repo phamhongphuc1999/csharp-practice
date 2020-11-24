@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Microsoft. All Rights Reserved.
+//  License under the Apache License, Version 2.0.
+//  My library with C Sharp.
+//  Owner by Pham Hong Phuc
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +11,13 @@ namespace MyLibrary.ArangeAlgorithm
 {
     public static partial class CoreAlgorithm
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
         public static IEnumerable<T> BubbleSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer)
         {
             List<T> arr = source.ToList();
@@ -25,6 +37,15 @@ namespace MyLibrary.ArangeAlgorithm
             return arr;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="low"></param>
+        /// <param name="hight"></param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
         private static int PartitionHeader<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
         {
             int left = low + 1;
@@ -49,6 +70,15 @@ namespace MyLibrary.ArangeAlgorithm
             return right;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="low"></param>
+        /// <param name="hight"></param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
         private static int PartitionEnd<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
         {
             int left = low;
@@ -73,6 +103,15 @@ namespace MyLibrary.ArangeAlgorithm
             return left;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="low"></param>
+        /// <param name="hight"></param>
+        /// <param name="comparer"></param>
+        /// <param name="pivot"></param>
         private static void QuickListSort<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer, Config.QuickSortPivot pivot)
         {
             if (low < hight)
@@ -92,6 +131,14 @@ namespace MyLibrary.ArangeAlgorithm
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="comparer"></param>
+        /// <param name="pivot"></param>
+        /// <returns></returns>
         public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, Config.QuickSortPivot pivot = Config.QuickSortPivot.HEADER)
         {
             List<T> list = source.ToList();
@@ -99,6 +146,15 @@ namespace MyLibrary.ArangeAlgorithm
             return list;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="begin"></param>
+        /// <param name="end"></param>
+        /// <param name="splip"></param>
+        /// <param name="comparer"></param>
         public static void Merge<T>(List<T> source, int begin, int end, int splip, Func<T, T, bool> comparer)
         {
             int lowLength = splip - begin + 1;
@@ -119,6 +175,14 @@ namespace MyLibrary.ArangeAlgorithm
             while (cHight < hightLength) source[cSource++] = hight[cHight++];
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="begin"></param>
+        /// <param name="end"></param>
+        /// <param name="comparer"></param>
         private static void MergeListSort<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
         {
             if(begin < end - 1)
@@ -130,6 +194,13 @@ namespace MyLibrary.ArangeAlgorithm
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
         public static IEnumerable<T> MergeSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer)
         {
             List<T> list = source.ToList();
