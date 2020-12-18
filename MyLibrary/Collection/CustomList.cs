@@ -57,17 +57,11 @@ namespace MyLibrary.Collection
             _size = count;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public int Count
         {
             get { return _size; }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public int Capacity
         {
             get { return _capacity; }
@@ -81,9 +75,6 @@ namespace MyLibrary.Collection
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public int Step
         {
             get { return _step; }
@@ -93,11 +84,6 @@ namespace MyLibrary.Collection
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public T this[int index]
         {
             get
@@ -114,10 +100,6 @@ namespace MyLibrary.Collection
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
         public void Add(T item)
         {
             if (_size >= _capacity)
@@ -128,10 +110,6 @@ namespace MyLibrary.Collection
             _items[_size++] = item;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="collection"></param>
         public void AddRange(IEnumerable<T> collection)
         {
             int count = collection.Count();
@@ -145,11 +123,6 @@ namespace MyLibrary.Collection
             _size = size;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="index"></param>
         public void Insert(T item, int index)
         {
             if (_size >= _capacity)
@@ -163,11 +136,6 @@ namespace MyLibrary.Collection
             _size += 1;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="index"></param>
         public void InsertRange(IEnumerable<T> collection, int index)
         {
             int count = collection.Count();
@@ -184,11 +152,6 @@ namespace MyLibrary.Collection
             _size += count;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="index"></param>
         public void CopyTo(T[] array, int index)
         {
             if (array.Length < _size - index) throw new OutOfMemoryException();
@@ -196,12 +159,6 @@ namespace MyLibrary.Collection
                 array[i] = _items[i];
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="index"></param>
-        /// <param name="func"></param>
         public void CopyTo(T[] array, int index, Func<T, T> func)
         {
             if (array.Length < _size - index) throw new OutOfMemoryException();
@@ -209,9 +166,6 @@ namespace MyLibrary.Collection
                 array[i] = func(_items[i]);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Clean()
         {
             _capacity = 10;
@@ -219,10 +173,6 @@ namespace MyLibrary.Collection
             _size = 0;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public int[] ToArray()
         {
             int[] result = new int[_size];
@@ -230,11 +180,6 @@ namespace MyLibrary.Collection
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
         public bool Contain(T item)
         {
             foreach (T x in _items)
@@ -242,22 +187,12 @@ namespace MyLibrary.Collection
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="action"></param>
         public void ForEach(Action<T> action)
         {
             foreach (T item in _items)
                 action(item);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="collection1"></param>
-        /// <param name="collection2"></param>
-        /// <returns></returns>
         public static CustomList<T> operator +(CustomList<T> collection1, CustomList<T> collection2)
         {
             int count1 = collection1.Count;
@@ -271,10 +206,6 @@ namespace MyLibrary.Collection
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             string result = "";
