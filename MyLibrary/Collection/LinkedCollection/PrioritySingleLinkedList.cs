@@ -3,6 +3,7 @@
 //  My library with C Sharp.
 //  Owner by Pham Hong Phuc
 
+using MyLibrary.CustomLinq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,33 +12,48 @@ namespace MyLibrary.Collection.LinkedCollection
 {
     public class PrioritySingleLinkedList<T>: IEnumerable<SingleNodeData<T>>
     {
-        protected Func<T, T, bool> priority;
-        protected SingleLinkedList<T> _items;
+        protected Func<T, T, bool> comparer;
+        protected SingleLinkedList<T> save;
 
-        public PrioritySingleLinkedList(Func<T, T, bool> priority)
+        public PrioritySingleLinkedList(Func<T, T, bool> comparer)
         {
-            this.priority = priority;
-            _items = new SingleLinkedList<T>();
+            this.comparer = comparer;
+            save = new SingleLinkedList<T>();
         }
 
-        public PrioritySingleLinkedList(IEnumerable<T> collection, Func<T, T, bool> priority)
+        public PrioritySingleLinkedList(Func<T, T, bool> comparer, IEnumerable<T> collection)
         {
-            this.priority = priority;
+            this.comparer = comparer;
+            save = new SingleLinkedList<T>();
+            foreach (T item in collection)
+            {
+                SingleNodeData<T> temp = new SingleNodeData<T>(item);
+                if (save.Count == 0) save.AddFirst(temp);
+                else
+                {
+                    int index = save.CustomBinarySearch(temp, 0, save.Count, (x, y) =>
+                    {
+                        if (comparer(x.data, y.data)) return -1;
+                        else return 1;
+                    });
+                    save.AddAfter(index, temp);
+                }
+            }
         }
 
         public int Count
         {
-            get { return _items.Count; }
+            get { return save.Count; }
         }
 
         public SingleNodeData<T> First
         {
-            get { return _items.First; }
+            get { return save.First; }
         }
 
         public SingleNodeData<T> Last
         {
-            get { return _items.Last; }
+            get { return save.Last; }
         }
 
         public SingleNodeData<T> this[int index]
