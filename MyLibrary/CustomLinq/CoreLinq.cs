@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyLibrary.CustomLinq
 {
@@ -32,6 +33,7 @@ namespace MyLibrary.CustomLinq
         public static IEnumerable<TResult> CustomJoin<T, TInner, TKey, TResult>(this IEnumerable<T> source, IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector)
         {
             int count = source.CustomCount();
+            if (count != inner.CustomCount()) throw new Exception();
             for(int i = 0; i < count; i++)
             {
                 T outerValue = source.CustomElementAt(i);
@@ -45,6 +47,7 @@ namespace MyLibrary.CustomLinq
         public static IEnumerable<TResult> CustomJoin<T, TInner, TKey, TResult>(this IEnumerable<T> source, IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
             int count = source.CustomCount();
+            if (count != inner.CustomCount()) throw new Exception();
             for (int i = 0; i < count; i++)
             {
                 T outerValue = source.CustomElementAt(i);
@@ -82,6 +85,16 @@ namespace MyLibrary.CustomLinq
             foreach (KeyValuePair<T, int> item in temp)
                 yield return item.Key;
         }
+
+        //public static IOrderedEnumerable<T> CustomOrder<T, TKey>(this IEnumerable<T> source, Func<T, TKey> KeySelecter)
+        //{
+
+        //}
+
+        //public static IOrderedEnumerable<T> CustomOrder<T, TKey>(this IEnumerable<T> source, Func<T, TKey> KeySelecter, Func<TKey, TKey, bool> comparer)
+        //{
+
+        //}
 
         public static int CustomCount<T>(this IEnumerable<T> source)
         {

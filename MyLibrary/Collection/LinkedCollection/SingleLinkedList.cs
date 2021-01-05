@@ -30,7 +30,7 @@ namespace MyLibrary.Collection.LinkedCollection
             for (int i = 1; i < count; i++)
             {
                 SingleNodeData<T> next = new SingleNodeData<T>(collection.ElementAt(i));
-                pNext.next = next;
+                pNext.Next = next;
                 pNext = next;
             }
             end = pNext;
@@ -44,14 +44,14 @@ namespace MyLibrary.Collection.LinkedCollection
                 if (_size <= index || index < 0) throw new IndexOutOfRangeException();
                 SingleNodeData<T> result = begin;
                 for (int i = 0; i < index; i += 1)
-                    result = result.next;
+                    result = result.Next;
                 return result;
             }
         }
 
         public void Concat(SingleLinkedList<T> nodeList)
         {
-            this.end.next = nodeList.begin;
+            this.end.Next = nodeList.begin;
             this.end = nodeList.end;
             _size += nodeList.Count;
         }
@@ -97,7 +97,7 @@ namespace MyLibrary.Collection.LinkedCollection
         public SingleNodeData<T> AddFirst(T value)
         {
             SingleNodeData<T> node = new SingleNodeData<T>(value);
-            node.next = begin;
+            node.Next = begin;
             begin = node;
             if (_size == 0) end = node;
             _size++;
@@ -106,7 +106,7 @@ namespace MyLibrary.Collection.LinkedCollection
 
         public void AddFirst(SingleNodeData<T> node)
         {
-            node.next = begin;
+            node.Next = begin;
             begin = node;
             if (_size == 0) end = node;
             _size++;
@@ -115,7 +115,7 @@ namespace MyLibrary.Collection.LinkedCollection
         public SingleNodeData<T> AddLast(T value)
         {
             SingleNodeData<T> node = new SingleNodeData<T>(value);
-            end.next = node;
+            end.Next = node;
             end = node;
             if (_size == 0) begin = node;
             _size++;
@@ -124,9 +124,9 @@ namespace MyLibrary.Collection.LinkedCollection
 
         public void AddLast(SingleNodeData<T> node)
         {
-            end.next = node;
+            end.Next = node;
             end = node;
-            node.next = null;
+            node.Next = null;
             if (_size == 0) begin = node;
             _size++;
         }
@@ -138,9 +138,9 @@ namespace MyLibrary.Collection.LinkedCollection
             for (int i = 1; i < index; i++)
                 pTemp++;
             SingleNodeData<T> node = new SingleNodeData<T>(value);
-            SingleNodeData<T> next = pTemp.next;
-            pTemp.next = node;
-            node.next = next;
+            SingleNodeData<T> next = pTemp.Next;
+            pTemp.Next = node;
+            node.Next = next;
             return node;
         }
 
@@ -150,9 +150,9 @@ namespace MyLibrary.Collection.LinkedCollection
             SingleNodeData<T> pTemp = begin;
             for (int i = 1; i < index; i++)
                 pTemp++;
-            SingleNodeData<T> next = pTemp.next;
-            pTemp.next = node;
-            node.next = next;
+            SingleNodeData<T> next = pTemp.Next;
+            pTemp.Next = node;
+            node.Next = next;
         }
 
         public SingleNodeData<T> AddBefore(int index, T value)
@@ -162,9 +162,9 @@ namespace MyLibrary.Collection.LinkedCollection
             for (int i = 1; i <= index; i++)
                 pTemp++;
             SingleNodeData<T> node = new SingleNodeData<T>(value);
-            SingleNodeData<T> next = pTemp.next;
-            pTemp.next = node;
-            node.next = next;
+            SingleNodeData<T> next = pTemp.Next;
+            pTemp.Next = node;
+            node.Next = next;
             return node;
         }
 
@@ -174,9 +174,9 @@ namespace MyLibrary.Collection.LinkedCollection
             SingleNodeData<T> pTemp = begin;
             for (int i = 1; i <= index; i++)
                 pTemp++;
-            SingleNodeData<T> next = pTemp.next;
-            pTemp.next = node;
-            node.next = next;
+            SingleNodeData<T> next = pTemp.Next;
+            pTemp.Next = node;
+            node.Next = next;
         }
 
         public IEnumerator<SingleNodeData<T>> GetEnumerator()
@@ -192,15 +192,20 @@ namespace MyLibrary.Collection.LinkedCollection
         private class SingleLinkedListEnumerator : IEnumerator<SingleNodeData<T>>
         {
             private SingleLinkedList<T> list;
-            private SingleNodeData<T> begin;
+            private int index;
+            private SingleNodeData<T> currentItem;
 
             public SingleLinkedListEnumerator(SingleLinkedList<T> list)
             {
                 this.list = list;
-                begin = null;
+                index = -1;
+                currentItem = list.begin;
             }
 
-            public SingleNodeData<T> Current => throw new NotImplementedException();
+            public SingleNodeData<T> Current
+            {
+                get { return currentItem; }
+            }
 
             object IEnumerator.Current => throw new NotImplementedException();
 
@@ -210,14 +215,15 @@ namespace MyLibrary.Collection.LinkedCollection
 
             public bool MoveNext()
             {
-                begin = begin.next;
-                if (begin == null) return false;
+                if(index >= 0) currentItem = currentItem.Next;
+                index++;
+                if (currentItem == null) return false;
                 return true;
             }
 
             public void Reset()
             {
-                begin = null;
+                currentItem = null;
             }
         }
     }

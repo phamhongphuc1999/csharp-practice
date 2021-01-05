@@ -31,8 +31,8 @@ namespace MyLibrary.Collection.LinkedCollection
             for (int i = 1; i < count; i++)
             {
                 DoubleNodeData<T> next = new DoubleNodeData<T>(collection.ElementAt(i));
-                pNext.next = next;
-                pNext.prev = pPrev;
+                pNext.Next = next;
+                pNext.Prev = pPrev;
                 pPrev = pNext;
                 pNext = next;
             }
@@ -47,7 +47,7 @@ namespace MyLibrary.Collection.LinkedCollection
                 if (_size <= index || index < 0) throw new IndexOutOfRangeException();
                 DoubleNodeData<T> result = begin;
                 for (int i = 0; i < index; i += 1)
-                    result = result.next;
+                    result = result.Next;
                 return result;
             }
             set
@@ -55,15 +55,15 @@ namespace MyLibrary.Collection.LinkedCollection
                 if (_size <= index || index < 0) throw new IndexOutOfRangeException();
                 DoubleNodeData<T> result = begin;
                 for (int i = 0; i < index; i += 1)
-                    result = result.next;
+                    result = result.Next;
                 result = value;
             }
         }
 
         public void Concat(DoubleLinkedList<T> nodeList)
         {
-            this.end.next = nodeList.begin;
-            nodeList.begin.prev = this.end;
+            this.end.Next = nodeList.begin;
+            nodeList.begin.Prev = this.end;
             this.end = nodeList.end;
             _size += nodeList.Count;
         }
@@ -89,7 +89,7 @@ namespace MyLibrary.Collection.LinkedCollection
             while (pTemp != null)
             {
                 if (pTemp.data.Equals(value)) return pTemp;
-                pTemp = pTemp.next;
+                pTemp = pTemp.Next;
             }
             return null;
         }
@@ -99,8 +99,8 @@ namespace MyLibrary.Collection.LinkedCollection
             DoubleNodeData<T> pTemp = end;
             while (pTemp != null)
             {
-                if (pTemp.prev.data.Equals(value)) return pTemp;
-                pTemp = pTemp.prev;
+                if (pTemp.Prev.data.Equals(value)) return pTemp;
+                pTemp = pTemp.Prev;
             }
             return null;
         }
@@ -108,7 +108,7 @@ namespace MyLibrary.Collection.LinkedCollection
         public DoubleNodeData<T> AddFirst(T value)
         {
             DoubleNodeData<T> node = new DoubleNodeData<T>(value);
-            node.next = begin;
+            node.Next = begin;
             begin = node;
             if (_size == 0) end = node;
             _size += 1;
@@ -117,8 +117,8 @@ namespace MyLibrary.Collection.LinkedCollection
 
         public void AddFirst(DoubleNodeData<T> node)
         {
-            node.next = begin;
-            node.prev = null;
+            node.Next = begin;
+            node.Prev = null;
             begin = node;
             if (_size == 0) end = node;
             _size += 1;
@@ -127,7 +127,7 @@ namespace MyLibrary.Collection.LinkedCollection
         public DoubleNodeData<T> AddLast(T value)
         {
             DoubleNodeData<T> node = new DoubleNodeData<T>(value);
-            end.next = node;
+            end.Next = node;
             end = node;
             if (_size == 0) begin = node;
             _size += 1;
@@ -136,8 +136,8 @@ namespace MyLibrary.Collection.LinkedCollection
 
         public void AddLast(DoubleNodeData<T> node)
         {
-            end.next = node;
-            node.next = null;
+            end.Next = node;
+            node.Next = null;
             end = node;
             if (_size == 0) begin = node;
             _size += 1;
@@ -148,9 +148,9 @@ namespace MyLibrary.Collection.LinkedCollection
             if (_size <= index || index < 0) throw new IndexOutOfRangeException();
             DoubleNodeData<T> node = new DoubleNodeData<T>(value);
             DoubleNodeData<T> indexNode = this[index];
-            node.next = indexNode.next;
-            node.prev = indexNode;
-            indexNode.next = node;
+            node.Next = indexNode.Next;
+            node.Prev = indexNode;
+            indexNode.Next = node;
             return node;
         }
 
@@ -158,9 +158,9 @@ namespace MyLibrary.Collection.LinkedCollection
         {
             if (_size <= index || index < 0) throw new IndexOutOfRangeException();
             DoubleNodeData<T> indexNode = this[index];
-            node.next = indexNode.next;
-            node.prev = indexNode;
-            indexNode.next = node;
+            node.Next = indexNode.Next;
+            node.Prev = indexNode;
+            indexNode.Next = node;
         }
 
         public DoubleNodeData<T> AddBefore(int index, T value)
@@ -168,9 +168,9 @@ namespace MyLibrary.Collection.LinkedCollection
             if (_size <= index || index < 0) throw new IndexOutOfRangeException();
             DoubleNodeData<T> node = new DoubleNodeData<T>(value);
             DoubleNodeData<T> indexNode = this[index];
-            node.next = indexNode;
-            node.prev = indexNode.prev;
-            indexNode.prev.next = node;
+            node.Next = indexNode;
+            node.Prev = indexNode.Prev;
+            indexNode.Prev.Next = node;
             return node;
         }
 
@@ -178,9 +178,9 @@ namespace MyLibrary.Collection.LinkedCollection
         {
             if (_size <= index || index < 0) throw new IndexOutOfRangeException();
             DoubleNodeData<T> indexNode = this[index];
-            node.next = indexNode;
-            node.prev = indexNode.prev;
-            indexNode.prev.next = node;
+            node.Next = indexNode;
+            node.Prev = indexNode.Prev;
+            indexNode.Prev.Next = node;
         }
 
         public void Remove(int index)
@@ -188,10 +188,10 @@ namespace MyLibrary.Collection.LinkedCollection
             if (index >= 0 && index < _size)
             {
                 DoubleNodeData<T> removeNode = this[index];
-                DoubleNodeData<T> prevNode = removeNode.prev;
-                DoubleNodeData<T> nextNode = removeNode.next;
-                if (prevNode != null) prevNode.next = nextNode;
-                if (nextNode != null) nextNode.prev = prevNode;
+                DoubleNodeData<T> prevNode = removeNode.Prev;
+                DoubleNodeData<T> nextNode = removeNode.Next;
+                if (prevNode != null) prevNode.Next = nextNode;
+                if (nextNode != null) nextNode.Prev = prevNode;
                 _size--;
             }
         }
@@ -203,10 +203,10 @@ namespace MyLibrary.Collection.LinkedCollection
             {
                 if (temp.data.Equals(value))
                 {
-                    DoubleNodeData<T> prevNode = temp.prev;
-                    DoubleNodeData<T> nextNode = temp.next;
-                    if (prevNode != null) prevNode.next = nextNode;
-                    if (nextNode != null) nextNode.prev = prevNode;
+                    DoubleNodeData<T> prevNode = temp.Prev;
+                    DoubleNodeData<T> nextNode = temp.Next;
+                    if (prevNode != null) prevNode.Next = nextNode;
+                    if (nextNode != null) nextNode.Prev = prevNode;
                     --_size;
                     break;
                 }
@@ -221,10 +221,10 @@ namespace MyLibrary.Collection.LinkedCollection
             {
                 if (temp.data.Equals(value))
                 {
-                    DoubleNodeData<T> prevNode = temp.prev;
-                    DoubleNodeData<T> nextNode = temp.next;
-                    if (prevNode != null) prevNode.next = nextNode;
-                    if (nextNode != null) nextNode.prev = prevNode;
+                    DoubleNodeData<T> prevNode = temp.Prev;
+                    DoubleNodeData<T> nextNode = temp.Next;
+                    if (prevNode != null) prevNode.Next = nextNode;
+                    if (nextNode != null) nextNode.Prev = prevNode;
                     --_size;
                     break;
                 }
@@ -238,7 +238,7 @@ namespace MyLibrary.Collection.LinkedCollection
             while (node != null)
             {
                 action(node);
-                node = node.next;
+                node = node.Next;
             }
         }
 
@@ -263,17 +263,19 @@ namespace MyLibrary.Collection.LinkedCollection
         private class DoubleLinkedListEnumerator : IEnumerator<DoubleNodeData<T>>
         {
             private DoubleLinkedList<T> list;
-            private DoubleNodeData<T> begin;
+            private DoubleNodeData<T> currentItem;
+            private int index;
 
             public DoubleLinkedListEnumerator(DoubleLinkedList<T> list)
             {
                 this.list = list;
-                begin = null;
+                currentItem = null;
+                index = -1;
             }
 
             public DoubleNodeData<T> Current
             {
-                get { return begin; }
+                get { return currentItem; }
             }
 
             object IEnumerator.Current => throw new NotImplementedException();
@@ -284,14 +286,15 @@ namespace MyLibrary.Collection.LinkedCollection
 
             public bool MoveNext()
             {
-                begin = begin.next;
-                if (begin == null) return false;
+                if(index >= 0) currentItem = currentItem.Next;
+                index++;
+                if (currentItem == null) return false;
                 return true;
             }
 
             public void Reset()
             {
-                begin = null;
+                currentItem = null;
             }
         }
     }

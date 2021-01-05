@@ -47,7 +47,7 @@ namespace MyLibrary.Collection.LinkedCollection
                 if (this.Count <= index || index < 0) throw new IndexOutOfRangeException();
                 DoubleNodeData<T> result = this.First;
                 for (int i = 0; i < index; i += 1)
-                    result = result.next;
+                    result = result.Next;
                 return result;
             }
         }
@@ -90,23 +90,25 @@ namespace MyLibrary.Collection.LinkedCollection
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         private class PriorityDoubleLinkedListIEnumerator : IEnumerator<DoubleNodeData<T>>
         {
             private PriorityDoubleLinkedList<T> list;
-            private DoubleNodeData<T> begin;
+            private DoubleNodeData<T> currentItem;
+            private int index;
 
             public PriorityDoubleLinkedListIEnumerator(PriorityDoubleLinkedList<T> list)
             {
                 this.list = list;
-                begin = null;
+                currentItem = null;
+                index = -1;
             }
 
             public DoubleNodeData<T> Current
             {
-                get { return begin; }
+                get { return currentItem; }
             }
 
             object IEnumerator.Current => throw new System.NotImplementedException();
@@ -117,14 +119,14 @@ namespace MyLibrary.Collection.LinkedCollection
 
             public bool MoveNext()
             {
-                begin = begin.next;
-                if (begin == null) return false;
+                currentItem = currentItem.Next;
+                if (currentItem == null) return false;
                 return true;
             }
 
             public void Reset()
             {
-                begin = null;
+                currentItem = null;
             }
         }
     }

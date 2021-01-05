@@ -7,18 +7,18 @@ namespace MyLibrary.Collection.LinkedCollection
 {
     public class SingleNodeData<T>
     {
-        public SingleNodeData<T> next;
+        public SingleNodeData<T> Next { get; set; }
         public T data;
 
         public SingleNodeData(T data)
         {
             this.data = data;
-            this.next = null;
+            this.Next = null;
         }
 
         public static SingleNodeData<T> operator ++(SingleNodeData<T> node)
         {
-            node = node.next;
+            node = node.Next;
             return node;
         }
 
@@ -26,7 +26,7 @@ namespace MyLibrary.Collection.LinkedCollection
         {
             int count = 0;
             while (node != null && count < value)
-                node = node.next;
+                node = node.Next;
             return node;
         }
 
@@ -50,20 +50,20 @@ namespace MyLibrary.Collection.LinkedCollection
 
     public class DoubleNodeData<T>
     {
-        public DoubleNodeData<T> next;
-        public DoubleNodeData<T> prev;
+        public DoubleNodeData<T> Next { get; set; }
+        public DoubleNodeData<T> Prev { get; set; }
         public T data;
 
         public DoubleNodeData(T data)
         {
             this.data = data;
-            this.next = null;
-            this.prev = null;
+            this.Next = null;
+            this.Prev = null;
         }
 
         public static DoubleNodeData<T> operator ++(DoubleNodeData<T> node)
         {
-            node = node.next;
+            node = node.Next;
             return node;
         }
 
@@ -71,13 +71,13 @@ namespace MyLibrary.Collection.LinkedCollection
         {
             int count = 0;
             while (node != null && count < value)
-                node = node.next;
+                node = node.Next;
             return node;
         }
 
         public static DoubleNodeData<T> operator --(DoubleNodeData<T> node)
         {
-            node = node.prev;
+            node = node.Prev;
             return node;
         }
 
@@ -85,7 +85,7 @@ namespace MyLibrary.Collection.LinkedCollection
         {
             int count = 0;
             while (node != null && count < value)
-                node = node.prev;
+                node = node.Prev;
             return node;
         }
 

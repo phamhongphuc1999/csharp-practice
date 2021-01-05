@@ -7,6 +7,7 @@ using MyLibrary.CustomLinq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyLibrary.Collection.LinkedCollection
 {
@@ -21,7 +22,7 @@ namespace MyLibrary.Collection.LinkedCollection
             save = new SingleLinkedList<T>();
         }
 
-        public PrioritySingleLinkedList(Func<T, T, bool> comparer, IEnumerable<T> collection)
+        public PrioritySingleLinkedList(Func<T, T, bool> comparer, IOrderedEnumerable<T> collection)
         {
             this.comparer = comparer;
             save = new SingleLinkedList<T>();
@@ -63,7 +64,7 @@ namespace MyLibrary.Collection.LinkedCollection
                 if (this.Count <= index || index < 0) throw new IndexOutOfRangeException();
                 SingleNodeData<T> result = this.First;
                 for (int i = 0; i < index; i += 1)
-                    result = result.next;
+                    result = result.Next;
                 return result;
             }
         }
