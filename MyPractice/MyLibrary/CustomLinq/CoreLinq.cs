@@ -3,8 +3,11 @@
 //  My library with C Sharp.
 //  Owner by Pham Hong Phuc
 
+using MyLibrary.Sort;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using SelectType = MyLibrary.Sort.Config.PivotType;
 
 namespace MyLibrary.CustomLinq
 {
@@ -85,16 +88,6 @@ namespace MyLibrary.CustomLinq
                 yield return item.Key;
         }
 
-        //public static IOrderedEnumerable<T> CustomOrder<T, TKey>(this IEnumerable<T> source, Func<T, TKey> KeySelecter)
-        //{
-
-        //}
-
-        //public static IOrderedEnumerable<T> CustomOrder<T, TKey>(this IEnumerable<T> source, Func<T, TKey> KeySelecter, Func<TKey, TKey, bool> comparer)
-        //{
-
-        //}
-
         public static int CustomCount<T>(this IEnumerable<T> source)
         {
             int count = 0;
@@ -140,6 +133,27 @@ namespace MyLibrary.CustomLinq
             bool temp = comparer(value, source.CustomElementAt(middle));
             if (temp) return CustomSearchPosition(source, value, middle + 1, end, comparer);
             else return CustomSearchPosition(source, value, begin, middle, comparer);
+        }
+
+        private static T QuickSelectList<T>(List<T> source, int begin, int end, int index, SelectType type, Func<T, T, bool> comparer)
+        {
+            if(end - begin + 1 >= index)
+            {
+                int partition = 0;
+                if (type == SelectType.HEADER) partition = CommonSort.Partition(source, begin, end, begin, comparer);
+                else if (type == SelectType.END) partition = CommonSort.Partition(source, begin, end, end, comparer);
+                else partition = CommonSort.Partition(source, begin, end, (begin + end) / 2, comparer);
+                if (index + begin < partition) QuickSelectList(source, begin, partition, index, type, comparer);
+                else if (index + begin > partition) QuickSelectList(source, partition + 1, end, index - partition + begin - 1, type, comparer);
+                else return source[partition];
+            }
+            throw new IndexOutOfRangeException();
+        }
+
+        public static T QuickSort<T>(this IEnumerable<T> source, int begin, int end, int index, Func<T, T, bool> comparer, SelectType type = SelectType.HEADER)
+        {
+            List<T> list = source.ToList();
+            return QuickSelectList(list, begin, end, index, type, comparer);
         }
     }
 }

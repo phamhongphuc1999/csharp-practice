@@ -3,13 +3,15 @@
 //  My library with C Sharp.
 //  Owner by Pham Hong Phuc
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MyLibrary.Collection.Stack
+namespace MyLibrary.Sort
 {
-    class PriorityStack
+    public static class Config
     {
+        public enum PivotType
+        {
+            HEADER,
+            END,
+            MEDIUM
+        }
     }
 }
