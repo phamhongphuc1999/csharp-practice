@@ -30,6 +30,43 @@ namespace MyLibrary.ArangeAlgorithm
             return arr;
         }
 
+        public static IEnumerable<T> InsertSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer)
+        {
+            List<T> arr = source.ToList();
+            int count = source.Count();
+            for(int i = 1; i < count; i++)
+            {
+                T value = arr[i];
+                int index = i - 1;
+                while(index >= 0 && comparer(value, arr[index]))
+                {
+                    arr[index + 1] = arr[index];
+                    index--;
+                }
+                arr[index] = value;
+            }
+            return arr;
+        }
+
+        public static IEnumerable<T> SelectSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer)
+        {
+            List<T> arr = source.ToList();
+            int count = source.Count();
+            for(int i = 0; i < count - 1; i++)
+            {
+                int key = i;
+                for (int j = i + 1; j < count; j++)
+                    if (comparer(arr[j], arr[i])) key = j;
+                if(key != i)
+                {
+                    T temp = arr[i];
+                    arr[i] = arr[key];
+                    arr[key] = temp;
+                }
+            }
+            return arr;
+        }
+
         private static int PartitionHeader<T>(List<T> source, int low, int hight, Func<T, T, bool> comparer)
         {
             int left = low + 1;
@@ -104,7 +141,7 @@ namespace MyLibrary.ArangeAlgorithm
             return list;
         }
 
-        public static void Merge<T>(List<T> source, int begin, int end, int splip, Func<T, T, bool> comparer)
+        private static void Merge<T>(List<T> source, int begin, int end, int splip, Func<T, T, bool> comparer)
         {
             int lowLength = splip - begin + 1;
             int hightLength = end - splip;
