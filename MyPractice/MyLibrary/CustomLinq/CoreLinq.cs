@@ -13,6 +13,16 @@ namespace MyLibrary.CustomLinq
 {
     public static partial class CoreLinq
     {
+        public static bool SWAP<T>(this List<T> source, int x, int y)
+        {
+            int count = source.Count;
+            if (x < 0 || y < 0 || x >= count || y >= count) return false;
+            T temp = source[x];
+            source[x] = source[y];
+            source[y] = temp;
+            return true;
+        }
+
         public static IEnumerable<TResult> CustomSelect<T, TResult>(this IEnumerable<T> source, Func<T, TResult> func)
         {
             foreach (T item in source)
@@ -150,10 +160,28 @@ namespace MyLibrary.CustomLinq
             throw new IndexOutOfRangeException();
         }
 
-        public static T QuickSort<T>(this IEnumerable<T> source, int begin, int end, int index, Func<T, T, bool> comparer, SelectType type = SelectType.HEADER)
+        private static T QuickSelectList<T>(List<T> source, int begin, int end, int index, Func<T, T, bool> comparer)
+        {
+            if(end- begin + 1 >= index)
+            {
+                int partition = CommonSort.RandomPartition(source, begin, end, comparer);
+                if (index + begin < partition) QuickSelectList(source, begin, partition, index, comparer);
+                else if (index + begin > partition) QuickSelectList(source, partition + 1, end, index - partition + begin - 1, comparer);
+                else return source[partition];
+            }
+            throw new IndexOutOfRangeException();
+        }
+
+        public static T QuickSort<T>(this IEnumerable<T> source, int begin, int end, int index, SelectType type, Func<T, T, bool> comparer)
         {
             List<T> list = source.ToList();
             return QuickSelectList(list, begin, end, index, type, comparer);
+        }
+
+        public static T RandomQuickSort<T>(this IEnumerable<T> source, int begin, int end, int index, Func<T, T, bool> comparer)
+        {
+            List<T> list = source.ToList();
+            return QuickSelectList(list, begin, end, index, comparer);
         }
     }
 }

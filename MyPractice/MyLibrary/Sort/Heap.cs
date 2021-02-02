@@ -3,6 +3,7 @@
 //  My library with C Sharp.
 //  Owner by Pham Hong Phuc
 
+using MyLibrary.CustomLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,7 @@ namespace MyLibrary.Sort
             if (right < length && !comparer(source[largest], source[right])) largest = right;
             if (largest != index)
             {
-                T temp = source[index];
-                source[index] = source[largest];
-                source[largest] = temp;
+                source.SWAP(index, largest);
                 Heapfy(source, largest, length, comparer);
             }
         }
@@ -51,9 +50,7 @@ namespace MyLibrary.Sort
             BuildHeap(arr, count, comparer);
             for(int i = count - 1; i >= 1; i--)
             {
-                T temp = arr[0];
-                arr[0] = arr[i];
-                arr[i] = temp;
+                arr.SWAP(0, i);
                 Heapfy(arr, 0, i, comparer);
             }
             return arr;

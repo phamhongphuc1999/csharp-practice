@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MyLibrary.CustomLinq;
 
 namespace MyLibrary.Sort
 {
@@ -16,17 +17,8 @@ namespace MyLibrary.Sort
             List<T> arr = source.ToList();
             int count = source.Count();
             for (int i = 0; i < count - 1; i++)
-            {
                 for (int j = i + 1; j < count; j++)
-                {
-                    if (!comparer(arr[i], arr[j]))
-                    {
-                        T temp = arr[i];
-                        arr[i] = arr[j];
-                        arr[j] = temp;
-                    }
-                }
-            }
+                    if (!comparer(arr[i], arr[j])) arr.SWAP(i, j);
             return arr;
         }
 
@@ -34,11 +26,11 @@ namespace MyLibrary.Sort
         {
             List<T> arr = source.ToList();
             int count = source.Count();
-            for(int i = 1; i < count; i++)
+            for (int i = 1; i < count; i++)
             {
                 T value = arr[i];
                 int index = i - 1;
-                while(index >= 0 && comparer(value, arr[index]))
+                while (index >= 0 && comparer(value, arr[index]))
                 {
                     arr[index + 1] = arr[index];
                     index--;
@@ -52,17 +44,12 @@ namespace MyLibrary.Sort
         {
             List<T> arr = source.ToList();
             int count = source.Count();
-            for(int i = 0; i < count - 1; i++)
+            for (int i = 0; i < count - 1; i++)
             {
                 int key = i;
                 for (int j = i + 1; j < count; j++)
                     if (comparer(arr[j], arr[i])) key = j;
-                if(key != i)
-                {
-                    T temp = arr[i];
-                    arr[i] = arr[key];
-                    arr[key] = temp;
-                }
+                if (key != i) arr.SWAP(i, key);
             }
             return arr;
         }
@@ -71,17 +58,30 @@ namespace MyLibrary.Sort
         {
             int low = begin, hight = end;
             T value = source[pivot];
-            while(low <= hight)
+            while (low <= hight)
             {
                 while (comparer(source[low], value)) low++;
                 while (comparer(value, source[hight])) hight--;
-                T temp = source[low];
-                source[low] = source[hight];
-                source[hight] = temp;
+                source.SWAP(low, hight);
+                low++; hight--;
             }
-            T temp1 = source[low];
-            source[low] = source[hight];
-            source[hight] = temp1;
+            source.SWAP(low, hight);
+            return hight;
+        }
+
+        public static int RandomPartition<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
+        {
+            int low = begin, hight = end;
+            Random random = new Random();
+            int pivot = random.Next(begin, end);
+            T value = source[pivot];
+            while (low <= hight)
+            {
+                while (comparer(source[low], value)) low++;
+                while (comparer(value, source[hight])) hight--;
+                source.SWAP(low, hight);
+            }
+            source.SWAP(low, hight);
             return hight;
         }
 
@@ -98,10 +98,27 @@ namespace MyLibrary.Sort
             }
         }
 
-        public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, Config.PivotType type = Config.PivotType.HEADER)
+        private static void QuickListSort<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
+        {
+            if (begin < end)
+            {
+                int partition = RandomPartition(source, begin, end, comparer);
+                QuickListSort(source, begin, partition, comparer);
+                QuickListSort(source, partition + 1, end, comparer);
+            }
+        }
+
+        public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, Config.PivotType type, Func<T, T, bool> comparer)
         {
             List<T> list = source.ToList();
-            QuickListSort<T>(list, 0, list.Count - 1, type, comparer);
+            QuickListSort(list, 0, list.Count - 1, type, comparer);
+            return list;
+        }
+
+        public static IEnumerable<T> RandomQuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer)
+        {
+            List<T> list = source.ToList();
+            QuickListSort(list, 0, list.Count - 1, comparer);
             return list;
         }
 
@@ -116,7 +133,7 @@ namespace MyLibrary.Sort
             for (int i = 0; i < hightLength; i++)
                 hight[i] = source[i + splip];
             int cLow = 0, cHight = 0, cSource = begin;
-            while(cLow < lowLength && cHight < hightLength)
+            while (cLow < lowLength && cHight < hightLength)
             {
                 if (comparer(low[cLow], hight[cHight])) source[cSource++] = low[cLow++];
                 else source[cSource++] = hight[cHight++];
@@ -127,7 +144,7 @@ namespace MyLibrary.Sort
 
         private static void MergeListSort<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
         {
-            if(begin < end - 1)
+            if (begin < end - 1)
             {
                 int splip = (begin + end) / 2;
                 MergeListSort(source, begin, splip, comparer);
