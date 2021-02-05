@@ -58,15 +58,13 @@ namespace MyLibrary.Sort
         {
             int low = begin, hight = end;
             T value = source[pivot];
-            while (low <= hight)
+            while (true)
             {
                 while (comparer(source[low], value)) low++;
                 while (comparer(value, source[hight])) hight--;
-                source.SWAP(low, hight);
-                low++; hight--;
+                if (low < hight) source.SWAP(low, hight);
+                else return hight;
             }
-            source.SWAP(low, hight);
-            return hight;
         }
 
         public static int RandomPartition<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
@@ -74,15 +72,7 @@ namespace MyLibrary.Sort
             int low = begin, hight = end;
             Random random = new Random();
             int pivot = random.Next(begin, end);
-            T value = source[pivot];
-            while (low <= hight)
-            {
-                while (comparer(source[low], value)) low++;
-                while (comparer(value, source[hight])) hight--;
-                source.SWAP(low, hight);
-            }
-            source.SWAP(low, hight);
-            return hight;
+            return Partition(source, begin, end, pivot, comparer);
         }
 
         private static void QuickListSort<T>(List<T> source, int begin, int end, Config.PivotType type, Func<T, T, bool> comparer)

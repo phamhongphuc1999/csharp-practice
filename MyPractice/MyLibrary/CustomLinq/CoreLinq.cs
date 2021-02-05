@@ -17,6 +17,7 @@ namespace MyLibrary.CustomLinq
         {
             int count = source.Count;
             if (x < 0 || y < 0 || x >= count || y >= count) return false;
+            if (x == y) return true;
             T temp = source[x];
             source[x] = source[y];
             source[y] = temp;
@@ -172,13 +173,13 @@ namespace MyLibrary.CustomLinq
             throw new IndexOutOfRangeException();
         }
 
-        public static T QuickSort<T>(this IEnumerable<T> source, int begin, int end, int index, SelectType type, Func<T, T, bool> comparer)
+        public static T QuickSelect<T>(this IEnumerable<T> source, int begin, int end, int index, SelectType type, Func<T, T, bool> comparer)
         {
             List<T> list = source.ToList();
             return QuickSelectList(list, begin, end, index, type, comparer);
         }
 
-        public static T RandomQuickSort<T>(this IEnumerable<T> source, int begin, int end, int index, Func<T, T, bool> comparer)
+        public static T RandomQuickSelect<T>(this IEnumerable<T> source, int begin, int end, int index, Func<T, T, bool> comparer)
         {
             List<T> list = source.ToList();
             return QuickSelectList(list, begin, end, index, comparer);
