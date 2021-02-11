@@ -106,6 +106,14 @@ namespace MyLibrary.CustomLinq
             return count;
         }
 
+        public static int CustomCount<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            int count = 0;
+            foreach (T item in source)
+                if (predicate(item)) count++;
+            return count;
+        }
+
         public static T CustomElementAt<T>(this IEnumerable<T> source, int index)
         {
             if (index < 0) throw new ArgumentOutOfRangeException();
