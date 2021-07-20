@@ -1,0 +1,15 @@
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\SQLApp.exe.config
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\SQLApp.exe
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\SQLApp.pdb
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\EntityFramework.dll
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\EntityFramework.SqlServer.dll
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\System.Data.SQLite.dll
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\System.Data.SQLite.EF6.dll
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\System.Data.SQLite.Linq.dll
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\EntityFramework.xml
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\EntityFramework.SqlServer.xml
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\bin\Debug\System.Data.SQLite.xml
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\obj\Debug\SQLApp.csproj.CoreCompileInputs.cache
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\obj\Debug\SQLApp.csproj.CopyComplete
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\obj\Debug\SQLApp.exe
+D:\VisualStudio\MyPractice\SQLApp\SQLApp\obj\Debug\SQLApp.pdb
