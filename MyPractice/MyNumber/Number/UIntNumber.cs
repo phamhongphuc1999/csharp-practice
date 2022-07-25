@@ -17,7 +17,7 @@ namespace MyNumber.Number
 
         public UIntNumber(string coreNumber)
         {
-            this.CoreNumber = coreNumber;
+            this.CoreNumber = UIntService.FormatNumber(coreNumber);
         }
 
         public int CompareTo(object? obj)
@@ -98,6 +98,28 @@ namespace MyNumber.Number
         public static bool operator >=(UIntNumber number1, UIntNumber number2)
         {
             return number1.IsGresterThanOrEqual(number2);
+        }
+
+        public bool IsEqual(UIntNumber number)
+        {
+            int result = UIntService.Compare(this.CoreNumber, number.CoreNumber);
+            return result == 0 ? true : false;
+        }
+
+        public static bool operator ==(UIntNumber number1, UIntNumber number2)
+        {
+            return number1.IsEqual(number2);
+        }
+
+        public bool IsNotEqual(UIntNumber number)
+        {
+            int result = UIntService.Compare(this.CoreNumber, number.CoreNumber);
+            return result != 0 ? true : false;
+        }
+
+        public static bool operator !=(UIntNumber number1, UIntNumber number2)
+        {
+            return number1.IsNotEqual(number2);
         }
 
         public static bool IsNumber(string number)

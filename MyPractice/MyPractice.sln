@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLibrary", "MyLibrary\MyLibrary.csproj", "{8E5BA89F-9563-4112-A97B-BE1534CA0BA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleText", "ConsoleText\ConsoleText.csproj", "{F51DA88D-8222-427A-84D0-DD8A7BEE657C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{F51DA88D-8222-427A-84D0-DD8A7BEE657C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyNumber", "MyNumber\MyNumber.csproj", "{611EFACC-A9C3-4E57-B8AF-89E4598C5B28}"
 EndProject

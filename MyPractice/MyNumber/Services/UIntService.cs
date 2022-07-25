@@ -12,6 +12,7 @@ namespace MyNumber.Services
 
         public static string FormatNumber(string number)
         {
+            if (!UIntService.IsNumber(number)) throw new NotANumber();
             bool check = true;
             int len = number.Length;
             int count = 0;
