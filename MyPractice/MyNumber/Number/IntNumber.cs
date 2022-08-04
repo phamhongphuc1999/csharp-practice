@@ -137,6 +137,25 @@ namespace MyNumber.Number
             return IntService.Compare(number1.CoreNumber, number2.CoreNumber);
         }
 
+        public static IntNumber operator +(IntNumber number)
+        {
+            return number;
+        }
+
+        public static IntNumber operator -(IntNumber number)
+        {
+            string sNum = number.CoreNumber;
+            if (sNum[0] == '-') return new IntNumber(sNum.Substring(1));
+            else return new IntNumber($"-${sNum}");
+        }
+
+        public UIntNumber Abs()
+        {
+            string sNum = this.CoreNumber;
+            if (sNum[0] == '-') return new UIntNumber(sNum.Substring(1));
+            else return new UIntNumber(sNum);
+        }
+
         public IntNumber Add(IntNumber number)
         {
             string result = IntService.Add(this.CoreNumber, number.CoreNumber);
@@ -226,6 +245,18 @@ namespace MyNumber.Number
         public static IntNumber operator /(IntNumber number1, UIntNumber number2)
         {
             string result = IntService.Divide(number1.CoreNumber, number2.CoreNumber);
+            return new IntNumber(result);
+        }
+
+        public IntNumber Multiple10(UIntNumber number)
+        {
+            string result = IntService.Multiple(this.CoreNumber, number.CoreNumber);
+            return new IntNumber(result);
+        }
+
+        public IntNumber Pow(UIntNumber number)
+        {
+            string result = IntService.Pow(this.CoreNumber, number.CoreNumber);
             return new IntNumber(result);
         }
     }

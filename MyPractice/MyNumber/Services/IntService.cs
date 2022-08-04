@@ -38,8 +38,7 @@ namespace MyNumber.Services
             (int sign2, string realNum2) = IntService.DeepIntNumber(number2);
             if (sign1 < sign2) return -1;
             else if (sign1 > sign2) return 1;
-            else if (sign1 == 1) return UIntService.Compare(realNum1, realNum2);
-            else return -UIntService.Compare(realNum1, realNum2);
+            else return sign1 * UIntService.Compare(realNum1, realNum2);
         }
 
         public static string Add(string number1, string number2)
@@ -69,8 +68,8 @@ namespace MyNumber.Services
         {
             (int sign1, string realNum1) = IntService.DeepIntNumber(number1);
             (int sign2, string realNum2) = IntService.DeepIntNumber(number2);
-            if (sign1 == -1 && sign2 == -1) return "-" + UIntService.Add(realNum1, realNum2);
-            else if (sign1 == 1 && sign2 == 1) return UIntService.Add(realNum1, realNum2);
+            if (sign1 == -1 && sign2 == 1) return "-" + UIntService.Add(realNum1, realNum2);
+            else if (sign1 == 1 && sign2 == -1) return UIntService.Add(realNum1, realNum2);
             else
             {
                 int compare = UIntService.Compare(realNum1, realNum2);

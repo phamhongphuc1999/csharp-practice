@@ -240,7 +240,7 @@ namespace MyNumber.Services
                         }
                     }
                 }
-                return result;
+                return result == "" ? "0" : result;
             }
         }
 
@@ -255,22 +255,22 @@ namespace MyNumber.Services
                 {
                     if (result == "0") result = cDividend.ToString();
                     else result = result + cDividend;
-                }
-                int resultCompare = UIntService.Compare(result, divisor);
-                if (resultCompare == 0) result = "0";
-                else if (resultCompare == 1)
-                {
-                    string preTotal = divisor;
-                    string total = UIntService.Add(divisor, divisor);
-                    int check = UIntService.Compare(total, result);
-                    while(check == -1)
+                    int resultCompare = UIntService.Compare(result, divisor);
+                    if (resultCompare == 0) result = "0";
+                    else if (resultCompare == 1)
                     {
-                        preTotal = total;
-                        total = UIntService.Add(total, divisor);
-                        check = UIntService.Compare(total, result);
+                        string preTotal = divisor;
+                        string total = UIntService.Add(divisor, divisor);
+                        int check = UIntService.Compare(total, result);
+                        while (check == -1)
+                        {
+                            preTotal = total;
+                            total = UIntService.Add(total, divisor);
+                            check = UIntService.Compare(total, result);
+                        }
+                        if (check == 0) result = "0";
+                        else result = UIntService.Subtract(result, preTotal);
                     }
-                    if (check == 0) result = "0";
-                    else result = UIntService.Subtract(result, preTotal);
                 }
                 return UIntService.FormatNumber(result);
             }
@@ -288,10 +288,10 @@ namespace MyNumber.Services
             string tNum2 = number2;
             while (UIntService.Compare(tNum2, "0") == 1)
             {
-                (string, string) _temp = UIntService.RealDivide(tNum2, "2");
-                if (_temp.Item2 == "1") result = result + temp;
+                (string rInteger, string rDecimal) = UIntService.RealDivide(tNum2, "2");
+                if (rDecimal == "1") result = result + temp;
                 temp = temp + temp;
-                tNum2 = _temp.Item1;
+                tNum2 = rInteger;
             }
             return number1 + result;
         }
@@ -303,12 +303,31 @@ namespace MyNumber.Services
             string tNum2 = number2;
             while(UIntService.Compare(tNum2, "0") == 1)
             {
-                (string, string) _temp = UIntService.RealDivide(tNum2, "2");
-                if (_temp.Item2 == "1") result = UIntService.Multiple(result, tNum1);
+                (string rInteger, string rDecimal) = UIntService.RealDivide(tNum2, "2");
+                if (rDecimal == "1") result = UIntService.Multiple(result, tNum1);
                 tNum1 = UIntService.Multiple(tNum1, tNum1);
-                tNum2 = _temp.Item1;
+                tNum2 = rInteger;
             }
             return result;
+        }
+
+        public static string CalculateGreatestCommonFactor(string number1, string number2)
+        {
+            if (number1 == "0" || number1 == "1") return number1;
+            else if (number2 == "0" || number2 == "1") return number2;
+            else
+            {
+                string num1 = number1;
+                string num2 = number2;
+                int check = UIntService.Compare(num1, num2);
+                while (check != 0)
+                {
+                    if (check == 1) num1 = UIntService.Subtract(num1, num2);
+                    else num2 = UIntService.Subtract(num2, num1);
+                    check = UIntService.Compare(num1, num2);
+                }
+                return num1;
+            }
         }
     }
 }

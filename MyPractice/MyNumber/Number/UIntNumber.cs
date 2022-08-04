@@ -202,6 +202,36 @@ namespace MyNumber.Number
             (string, string) result = UIntService.RealDivide(this.CoreNumber, divisor.CoreNumber);
             return (new UIntNumber(result.Item1), new UIntNumber(result.Item2));
         }
+
+        public UIntNumber Multiply10(UIntNumber number)
+        {
+            string result = UIntService.Multiply10(this.CoreNumber, number.CoreNumber);
+            return new UIntNumber(result);
+        }
+
+        public UIntNumber Pow(UIntNumber number)
+        {
+            string result = UIntService.Pow(this.CoreNumber, number.CoreNumber);
+            return new UIntNumber(result);
+        }
+
+        public UIntNumber Fractorial()
+        {
+            string temp = this.CoreNumber;
+            string result = "1";
+            while(UIntService.Compare(temp, "1") == 1)
+            {
+                result = UIntService.Multiple(result, temp);
+                temp = UIntService.Subtract(temp, "1");
+            }
+            return new UIntNumber(result);
+        }
+
+        public static UIntNumber CalculateGreatestCommonFactor(UIntNumber number1, UIntNumber number2)
+        {
+            string result = UIntService.CalculateGreatestCommonFactor(number1.CoreNumber, number2.CoreNumber);
+            return new UIntNumber(result);
+        }
     }
 }
 
