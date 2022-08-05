@@ -6,8 +6,8 @@ namespace MyNumber.Services
     {
         public static bool IsNumber(string number)
         {
-            Regex re = new Regex("^[- | 0-9][0-9]*");
-            return re.IsMatch(number);
+            Match match = Regex.Match(number, "^[- | 0-9][0-9]*");
+            return match.Length == number.Length;
         }
 
         public static (int, string) GetUIntNumber(string number)

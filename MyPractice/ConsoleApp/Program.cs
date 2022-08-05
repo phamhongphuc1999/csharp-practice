@@ -1,4 +1,4 @@
-﻿using System;
+﻿using MyNumber.Services;
 
 namespace ConsoleText
 {
@@ -6,7 +6,8 @@ namespace ConsoleText
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello world");
+            bool check = UIntService.IsNumber("123abc");
+            Console.WriteLine(check);
         }
     }
 }

@@ -1,0 +1,33 @@
+name: my-practice-workflow
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - "!**.md"
+      - "!.gitignore"
+      - "MyPractice/**"
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["5.0.x", "6.1.x"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Use MyPractice solution
+        run: cd ./MyPractice
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test ./MyPracticeTest --no-restore --verbosity normal
