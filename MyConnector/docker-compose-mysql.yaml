@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  mysql_container:
+    image: mysql:latest
+    container_name: "my_connector_sql_container"
+    environment:
+      MYSQL_ROOT_PASSWORD: fsharp
+    ports:
+      - "3307:3306"
+    volumes:
+      - "./sql/setup.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./sql/data.sql:/docker-entrypoint-initdb.d/2.sql"

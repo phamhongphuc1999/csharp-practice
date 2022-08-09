@@ -6,8 +6,9 @@ namespace ConsoleText
     {
         public static void Main(string[] args)
         {
-            bool check = UIntService.IsNumber("123abc");
+            string check = UIntService.Divide("10", "2");
             Console.WriteLine(check);
+            //Console.WriteLine(UIntService.Add("1", "2"));
         }
     }
 }

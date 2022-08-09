@@ -14,9 +14,9 @@ namespace MyPracticeText.NumberService
         [TestCase("123a", false)]
         public void IsNumberTest(string number, bool expected)
         {
-            bool _check = UIntService.IsNumber(number);
-            if (expected) Assert.IsTrue(_check);
-            else Assert.IsFalse(_check);
+            bool check = UIntService.IsNumber(number);
+            if (expected) Assert.IsTrue(check);
+            else Assert.IsFalse(check);
             Assert.IsTrue(true);
         }
 
@@ -47,6 +47,82 @@ namespace MyPracticeText.NumberService
         public void AddTest(string number1, string number2, string expected)
         {
             string result = UIntService.Add(number1, number2);
+            Assert.IsTrue(result == expected);
+        }
+
+        [Test]
+        [TestCase("10", "10", "0")]
+        [TestCase("11", "10", "1")]
+        public void SubtractTest(string number1, string number2, string expected)
+        {
+            string result = UIntService.FormatNumber(UIntService.Subtract(number1, number2));
+            Assert.IsTrue(result == expected);
+        }
+
+        [Test]
+        [TestCase("15", "2", "30")]
+        [TestCase("99", "3", "297")]
+        [TestCase("99", "1234", "122166")]
+        public void MultipleTest(string number1, string number2, string expected)
+        {
+            string result = UIntService.Multiple(number1, number2);
+            Assert.IsTrue(result == expected);
+        }
+
+        [Test]
+        [TestCase("15", "3", "5")]
+        [TestCase("1234", "5", "246")]
+        [TestCase("123456", "789", "156")]
+        public void DivideTest(string number1, string number2, string expected)
+        {
+            string result = UIntService.Divide(number1, number2);
+            Assert.IsTrue(result == expected);
+        }
+
+        [Test]
+        [TestCase("15", "3", "0")]
+        [TestCase("1234", "5", "4")]
+        [TestCase("123456", "789", "372")]
+        public void DivideModTest(string number1, string number2, string expected)
+        {
+            string result = UIntService.DivideMod(number1, number2);
+            Assert.IsTrue(result == expected);
+        }
+
+        [Test]
+        [TestCase("15", "3", "5", "0")]
+        [TestCase("1234", "5", "246", "4")]
+        [TestCase("123456", "789", "156", "372")]
+        public void RealDivideTest(string number1, string number2, string expectedInteger, string expectedDecimal)
+        {
+            (string a, string b) = UIntService.RealDivide(number1, number2);
+            Assert.IsTrue(a == expectedInteger && b == expectedDecimal);
+        }
+
+        [Test]
+        [TestCase("15", "3", "15000")]
+        [TestCase("12", "10", "120000000000")]
+        public void Multiply10Test(string number1, string number2, string expected)
+        {
+            string result = UIntService.Multiply10(number1, number2);
+            Assert.IsTrue(result == expected);
+        }
+
+        [Test]
+        [TestCase("15", "3", "3375")]
+        [TestCase("12", "10", "61917364224")]
+        public void PowTest(string number1, string number2, string expected)
+        {
+            string result = UIntService.Pow(number1, number2);
+            Assert.IsTrue(result == expected);
+        }
+
+        [Test]
+        [TestCase("15", "5", "5")]
+        [TestCase("5", "1", "1")]
+        public void CalculateGreatestCommonFactorTest(string number1, string number2, string expected)
+        {
+            string result = UIntService.FormatNumber(UIntService.CalculateGreatestCommonFactor(number1, number2));
             Assert.IsTrue(result == expected);
         }
     }

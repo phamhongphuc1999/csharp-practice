@@ -218,7 +218,7 @@ namespace MyNumber.Services
                             while (count <= 9 && check == -1)
                             {
                                 preTotal = total;
-                                total = UIntService.Add(total, remain);
+                                total = UIntService.Add(total, divisor);
                                 count++;
                                 check = UIntService.Compare(total, remain);
                             }
@@ -331,4 +331,3 @@ namespace MyNumber.Services
         }
     }
 }
-
