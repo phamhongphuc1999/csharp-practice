@@ -4,7 +4,7 @@ services:
     image: mysql:latest
     container_name: "my_connector_sql_container"
     environment:
-      MYSQL_ROOT_PASSWORD: fsharp
+      MYSQL_ROOT_PASSWORD: 123456789
     ports:
       - "3307:3306"
     volumes:

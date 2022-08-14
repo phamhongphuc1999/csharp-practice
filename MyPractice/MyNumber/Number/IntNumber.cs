@@ -23,26 +23,26 @@ namespace MyNumber.Number
         public int CompareTo(object? obj)
         {
             IntNumber? num = obj as IntNumber;
-            if (num == null) return 1;
+            if (num is null) return 1;
             else return this.CompareTo(num);
         }
 
         public bool Equals(IntNumber? other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             else return this.Equals(other);
         }
 
         public int CompareTo(IntNumber? other)
         {
-            if (other == null) return 1;
+            if (other is null) return 1;
             else return IntService.Compare(this.CoreNumber, other.CoreNumber);
         }
 
         public override bool Equals(object? obj)
         {
             IntNumber? num = obj as IntNumber;
-            if (num == null) return true;
+            if (num is null) return true;
             else return this.Equals(num);
         }
 
@@ -154,6 +154,12 @@ namespace MyNumber.Number
             string sNum = this.CoreNumber;
             if (sNum[0] == '-') return new UIntNumber(sNum.Substring(1));
             else return new UIntNumber(sNum);
+        }
+
+        public (int, UIntNumber) GetUInt()
+        {
+            (int sign, string uIntNum) = IntService.GetUIntNumber(this.CoreNumber);
+            return (sign, new UIntNumber(uIntNum));
         }
 
         public IntNumber Add(IntNumber number)

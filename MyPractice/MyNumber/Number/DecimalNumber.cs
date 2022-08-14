@@ -23,20 +23,27 @@ namespace MyNumber.Number
         public int CompareTo(object? obj)
         {
             DecimalNumber? num = obj as DecimalNumber;
-            if (num == null) return 1;
+            if (num is null) return 1;
             else return this.CompareTo(num);
         }
 
         public int CompareTo(DecimalNumber? other)
         {
-            if (other == null) return 1;
+            if (other is null) return 1;
             else return DecimalService.Compare(this.CoreNumber, other.CoreNumber);
         }
 
         public bool Equals(DecimalNumber? other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             else return this.Equals(other);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            DecimalNumber? num = obj as DecimalNumber;
+            if (num is null) return true;
+            else return this.Equals(num);
         }
 
         public override int GetHashCode()
@@ -150,10 +157,161 @@ namespace MyNumber.Number
             return new DecimalNumber(result);
         }
 
+        public static DecimalNumber operator +(DecimalNumber number1, DecimalNumber number2)
+        {
+            return number1.Add(number2);
+        }
+
+        public static DecimalNumber operator +(DecimalNumber number1, UIntNumber number2)
+        {
+            string result = DecimalService.Add(number1.CoreNumber, number2.CoreNumber);
+            return new DecimalNumber(result);
+        }
+
+        public static DecimalNumber operator +(UIntNumber number1, DecimalNumber number2)
+        {
+            string result = DecimalService.Add(number1.CoreNumber, number2.CoreNumber);
+            return new DecimalNumber(result);
+        }
+
+        public static DecimalNumber operator +(DecimalNumber number1, IntNumber number2)
+        {
+            string result = DecimalService.Add(number1.CoreNumber, number2.CoreNumber);
+            return new DecimalNumber(result);
+        }
+
+        public static DecimalNumber operator +(IntNumber number1, DecimalNumber number2)
+        {
+            string result = DecimalService.Add(number1.CoreNumber, number2.CoreNumber);
+            return new DecimalNumber(result);
+        }
+
         public DecimalNumber Subtract(DecimalNumber number)
         {
             string result = DecimalService.Subtract(this.CoreNumber, number.CoreNumber);
             return new DecimalNumber(result);
+        }
+
+        public static DecimalNumber operator -(DecimalNumber number1, DecimalNumber number2)
+        {
+            return number1.Add(number2);
+        }
+
+        public static DecimalNumber operator -(DecimalNumber number1, UIntNumber number2)
+        {
+            string result = DecimalService.Subtract(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public static DecimalNumber operator -(UIntNumber number1, DecimalNumber number2)
+        {
+            string result = DecimalService.Subtract(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public static DecimalNumber operator -(DecimalNumber number1, IntNumber number2)
+        {
+            string result = DecimalService.Subtract(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public static DecimalNumber operator -(IntNumber number1, DecimalNumber number2)
+        {
+            string result = DecimalService.Subtract(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public DecimalNumber Multiply10(UIntNumber number)
+        {
+            return DecimalNumber.Parst(DecimalService.Multiply10(this.CoreNumber, number.CoreNumber));
+        }
+
+        public DecimalNumber Multiply(DecimalNumber number)
+        {
+            string result = DecimalService.Multiply(this.CoreNumber, number.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public static DecimalNumber operator *(DecimalNumber number1, DecimalNumber number2)
+        {
+            return number1.Multiply(number2);
+        }
+
+        public static DecimalNumber operator *(DecimalNumber number1, UIntNumber number2)
+        {
+            string result = DecimalService.Multiply(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public static DecimalNumber operator *(UIntNumber number1, DecimalNumber number2)
+        {
+            string result = DecimalService.Multiply(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public static DecimalNumber operator *(DecimalNumber number1, IntNumber number2)
+        {
+            string result = DecimalService.Multiply(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public static DecimalNumber operator *(IntNumber number1, DecimalNumber number2)
+        {
+            string result = DecimalService.Multiply(number1.CoreNumber, number2.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public DecimalNumber Divide10(UIntNumber number)
+        {
+            return DecimalNumber.Parst(DecimalService.DivideUInt10(this.CoreNumber, number.CoreNumber));
+        }
+
+        public DecimalNumber Divide(DecimalNumber number, int accuracy)
+        {
+            return DecimalNumber.Parst(DecimalService.Divide(this.CoreNumber, number.CoreNumber, accuracy));
+        }
+
+        public static DecimalNumber operator /(DecimalNumber number1, DecimalNumber number2)
+        {
+            return number1.Divide(number2, 10);
+        }
+
+        public static DecimalNumber operator /(DecimalNumber number1, UIntNumber number2)
+        {
+            return DecimalNumber.Parst(DecimalService.Divide(number1.CoreNumber, number2.CoreNumber, 10));
+        }
+
+        public static DecimalNumber operator /(UIntNumber number1, DecimalNumber number2)
+        {
+            return DecimalNumber.Parst(DecimalService.Divide(number1.CoreNumber, number2.CoreNumber, 10));
+        }
+
+        public static DecimalNumber operator /(DecimalNumber number1, IntNumber number2)
+        {
+            return DecimalNumber.Parst(DecimalService.Divide(number1.CoreNumber, number2.CoreNumber, 10));
+        }
+
+        public static DecimalNumber operator /(IntNumber number1, DecimalNumber number2)
+        {
+            return DecimalNumber.Parst(DecimalService.Divide(number1.CoreNumber, number2.CoreNumber, 10));
+        }
+
+        public DecimalNumber Pow(UIntNumber number)
+        {
+            string result = DecimalService.Pow(this.CoreNumber, number.CoreNumber);
+            return DecimalNumber.Parst(result);
+        }
+
+        public DecimalNumber Pow(IntNumber number)
+        {
+            (int sign, UIntNumber num) = number.GetUInt();
+            string result = DecimalService.Pow(this.CoreNumber, num.CoreNumber);
+            if (sign == 1) return DecimalNumber.Parst(result);
+            else
+            {
+                string result1 = DecimalService.Divide("1", result, 10);
+                return DecimalNumber.Parst(result1);
+            }
         }
     }
 }
