@@ -43,6 +43,6 @@ namespace MyLibrary.Collection
 
     public class CustomDictionary
     {
-        
+
     }
 }

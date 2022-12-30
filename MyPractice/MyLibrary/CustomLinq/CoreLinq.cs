@@ -47,7 +47,7 @@ namespace MyLibrary.CustomLinq
         {
             int count = source.CustomCount();
             if (count != inner.CustomCount()) throw new Exception();
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 T outerValue = source.CustomElementAt(i);
                 TInner innerValue = inner.CustomElementAt(i);
@@ -156,7 +156,7 @@ namespace MyLibrary.CustomLinq
 
         private static T QuickSelectList<T>(List<T> source, int begin, int end, int index, SelectType type, Func<T, T, bool> comparer)
         {
-            if(end - begin + 1 >= index)
+            if (end - begin + 1 >= index)
             {
                 int partition = 0;
                 if (type == SelectType.HEADER) partition = CommonSort.Partition(source, begin, end, begin, comparer);
@@ -171,7 +171,7 @@ namespace MyLibrary.CustomLinq
 
         private static T QuickSelectList<T>(List<T> source, int begin, int end, int index, Func<T, T, bool> comparer)
         {
-            if(end- begin + 1 >= index)
+            if (end - begin + 1 >= index)
             {
                 int partition = CommonSort.RandomPartition(source, begin, end, comparer);
                 if (index + begin < partition) QuickSelectList(source, begin, partition, index, comparer);

@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace MyLibrary.Collection.LinkedCollection
 {
-    public class PrioritySingleLinkedList<T>: IEnumerable<SingleNodeData<T>>
+    public class PrioritySingleLinkedList<T> : IEnumerable<SingleNodeData<T>>
     {
         protected Func<T, T, bool> comparer;
         protected SingleLinkedList<T> save;

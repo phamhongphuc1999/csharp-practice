@@ -199,7 +199,7 @@ namespace MyLibrary.Collection.LinkedCollection
         public void RemoveFirst(T value)
         {
             DoubleNodeData<T> temp = begin;
-            while(temp != null)
+            while (temp != null)
             {
                 if (temp.data.Equals(value))
                 {
@@ -217,7 +217,7 @@ namespace MyLibrary.Collection.LinkedCollection
         public void RemoveLast(T value)
         {
             DoubleNodeData<T> temp = end;
-            while(temp != null)
+            while (temp != null)
             {
                 if (temp.data.Equals(value))
                 {
@@ -286,7 +286,7 @@ namespace MyLibrary.Collection.LinkedCollection
 
             public bool MoveNext()
             {
-                if(index >= 0) currentItem = currentItem.Next;
+                if (index >= 0) currentItem = currentItem.Next;
                 index++;
                 if (currentItem == null) return false;
                 return true;

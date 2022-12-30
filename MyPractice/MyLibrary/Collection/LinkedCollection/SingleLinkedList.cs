@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace MyLibrary.Collection.LinkedCollection
 {
-    public class SingleLinkedList<T>: IEnumerable<SingleNodeData<T>>
+    public class SingleLinkedList<T> : IEnumerable<SingleNodeData<T>>
     {
         protected int _size;
         protected SingleNodeData<T> begin;
@@ -74,7 +74,7 @@ namespace MyLibrary.Collection.LinkedCollection
         public SingleNodeData<T> Find(T value)
         {
             SingleNodeData<T> pTemp = begin;
-            while(pTemp != null)
+            while (pTemp != null)
             {
                 if (pTemp.data.Equals(value)) return pTemp;
                 pTemp += 1;
@@ -86,7 +86,7 @@ namespace MyLibrary.Collection.LinkedCollection
         {
             SingleNodeData<T> pTemp = begin;
             SingleNodeData<T> result = null;
-            while(pTemp != null)
+            while (pTemp != null)
             {
                 if (pTemp.data.Equals(value)) result = pTemp;
                 pTemp += 1;
@@ -215,7 +215,7 @@ namespace MyLibrary.Collection.LinkedCollection
 
             public bool MoveNext()
             {
-                if(index >= 0) currentItem = currentItem.Next;
+                if (index >= 0) currentItem = currentItem.Next;
                 index++;
                 if (currentItem == null) return false;
                 return true;

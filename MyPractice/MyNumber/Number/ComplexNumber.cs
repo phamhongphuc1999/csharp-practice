@@ -1,11 +1,11 @@
 ﻿using System;
 namespace MyNumber.Number
 {
-    public class ComplexNumber
+  public class ComplexNumber
+  {
+    public ComplexNumber()
     {
-        public ComplexNumber()
-        {
-        }
     }
+  }
 }
 

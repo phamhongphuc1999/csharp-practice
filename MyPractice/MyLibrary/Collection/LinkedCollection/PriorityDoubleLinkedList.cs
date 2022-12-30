@@ -25,13 +25,14 @@ namespace MyLibrary.Collection.LinkedCollection
         {
             this.comparer = comparer;
             save = new DoubleLinkedList<T>();
-            foreach(T item in collection)
+            foreach (T item in collection)
             {
                 if (save.Count == 0) save.AddFirst(item);
                 else
                 {
                     DoubleNodeData<T> temp = new DoubleNodeData<T>(item);
-                    int index = save.CustomBinarySearch(temp, 0, save.Count, (x, y) => {
+                    int index = save.CustomBinarySearch(temp, 0, save.Count, (x, y) =>
+                    {
                         if (comparer(x.data, y.data)) return -1;
                         else return 1;
                     });
@@ -70,7 +71,8 @@ namespace MyLibrary.Collection.LinkedCollection
         public DoubleNodeData<T> Add(T item)
         {
             DoubleNodeData<T> temp = new DoubleNodeData<T>(item);
-            int index = save.CustomBinarySearch(temp, 0, save.Count, (x, y) => {
+            int index = save.CustomBinarySearch(temp, 0, save.Count, (x, y) =>
+            {
                 if (comparer(x.data, y.data)) return -1;
                 else return 1;
             });

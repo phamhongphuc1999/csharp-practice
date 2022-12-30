@@ -45,7 +45,7 @@ namespace MyLibrary.Collection.Queue
 
         public T Dequeue()
         {
-            if(_items.Count > 0)
+            if (_items.Count > 0)
             {
                 T result = _items[0];
                 _items.RemoveAt(0);

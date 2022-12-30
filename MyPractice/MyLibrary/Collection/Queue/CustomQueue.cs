@@ -91,7 +91,7 @@ namespace MyLibrary.Collection.Queue
         public void Enqueue(T item)
         {
             _size += 1;
-            if(_size < _capacity)
+            if (_size < _capacity)
             {
                 end = Support.AddOneUnit(end, _capacity);
                 _items[end] = item;
@@ -100,7 +100,7 @@ namespace MyLibrary.Collection.Queue
             {
                 int capacity = _capacity;
                 T[] temp = new T[capacity];
-                for(int i = begin, index = 0; index < _capacity; i = Support.AddOneUnit(i, _capacity), index++)
+                for (int i = begin, index = 0; index < _capacity; i = Support.AddOneUnit(i, _capacity), index++)
                     temp[index] = _items[i];
                 _capacity += _step;
                 Array.Resize<T>(ref _items, _capacity);
@@ -114,7 +114,7 @@ namespace MyLibrary.Collection.Queue
 
         public T Dequeue()
         {
-            if(_size > 0)
+            if (_size > 0)
             {
                 end = Support.SubtractOneUnit(end, _capacity);
                 _size--;
@@ -131,7 +131,7 @@ namespace MyLibrary.Collection.Queue
 
         public bool TryDequeue(out T result)
         {
-            if(_size > 0)
+            if (_size > 0)
             {
                 end = Support.SubtractOneUnit(end, _capacity);
                 _size--;
@@ -147,7 +147,7 @@ namespace MyLibrary.Collection.Queue
 
         public bool TryPeek(out T result)
         {
-            if(_size > 0)
+            if (_size > 0)
             {
                 result = _items[end];
                 return true;
