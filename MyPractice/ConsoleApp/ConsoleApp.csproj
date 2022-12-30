@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyNumber\MyNumber.csproj" />
+    <ProjectReference Include="..\BlockchainInteraction\BlockchainInteraction.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

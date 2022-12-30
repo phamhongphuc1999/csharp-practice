@@ -1,4 +1,4 @@
-﻿using MyNumber.Services;
+﻿using BlockchainInteraction;
 
 namespace ConsoleText
 {
@@ -6,9 +6,7 @@ namespace ConsoleText
     {
         public static void Main(string[] args)
         {
-            string check = UIntService.Divide("10", "2");
-            Console.WriteLine(check);
-            //Console.WriteLine(UIntService.Add("1", "2"));
+
         }
     }
 }

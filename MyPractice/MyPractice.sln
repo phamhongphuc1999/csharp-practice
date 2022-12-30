@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyNumber", "MyNumber\MyNumb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPracticeTest", "MyPracticeTest\MyPracticeTest.csproj", "{90D8B66D-CDC1-4FB0-8A8D-DAFEC6865B6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockchainInteraction", "BlockchainInteraction\BlockchainInteraction.csproj", "{EEABC899-B3B0-4A92-AC21-FC9F0B7C1B7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{90D8B66D-CDC1-4FB0-8A8D-DAFEC6865B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D8B66D-CDC1-4FB0-8A8D-DAFEC6865B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D8B66D-CDC1-4FB0-8A8D-DAFEC6865B6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEABC899-B3B0-4A92-AC21-FC9F0B7C1B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEABC899-B3B0-4A92-AC21-FC9F0B7C1B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEABC899-B3B0-4A92-AC21-FC9F0B7C1B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEABC899-B3B0-4A92-AC21-FC9F0B7C1B7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
