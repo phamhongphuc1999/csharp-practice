@@ -34,9 +34,9 @@ namespace BlockchainInteraction
       string json = JsonConvert.SerializeObject(request);
       StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
       var res = await this.client.PostAsync(this.rpcUrl, httpContent);
-      string _result = "" + res.Content + " : " + res.StatusCode;
+      string? contents = await res.Content.ReadAsStringAsync();
       var data = new JsonRpcResponse<object>(request.id);
-      data.SetResult(_result);
+      data.SetResult(contents);
       return data;
     }
 

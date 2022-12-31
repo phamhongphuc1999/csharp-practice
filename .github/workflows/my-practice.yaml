@@ -7,8 +7,9 @@ on:
     paths:
       - "!**.md"
       - "!**.sh"
-      - "!MyConnector/**"
       - "!.gitignore"
+      - "!ConsoleApp/**"
+      - "!BlockchainInteraction/**"
       - "MyPractice/**"
   pull_request:
     branches:

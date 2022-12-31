@@ -48,7 +48,7 @@
 
     public async Task<string?> chainId()
     {
-      object? _result = await this.Send<object, object>(this.CreatePayload("eth_chainId", new object[] { }));
+      object? _result = await this.Send<object, object>(this.CreatePayload(EthRequest.chainId, new object[] { }));
       if (_result != null) return (_result as string);
       return null;
     }
