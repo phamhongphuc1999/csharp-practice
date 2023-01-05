@@ -46,6 +46,38 @@
       return await this.engine.Handle<Params, Result>(request, null);
     }
 
+    public async Task<EthBlock?> getBlockByHash(string blockHash, bool hydratedTransaction)
+    {
+      JsonRpcRequest<object> _data = this.CreatePayload(EthRequest.getBlockByHash, new object[] { blockHash, hydratedTransaction });
+      object? _result = await this.Send<object, object>(_data);
+      if (_result != null) return (_result as EthBlock);
+      return null;
+    }
+
+    public async Task<EthBlock?> getBlockByNumber(string blockNumber = BlockTag.Latest, bool hydratedTransaction = false)
+    {
+      JsonRpcRequest<object> _data = this.CreatePayload(EthRequest.getBlockByNumber, new object[] { blockNumber, hydratedTransaction });
+      object? _result = await this.Send<object, object>(_data);
+      if (_result != null) return (_result as EthBlock);
+      return null;
+    }
+
+    public async Task<string?> getBlockTransactionCountByHash(string blockHash)
+    {
+      JsonRpcRequest<object> _data = this.CreatePayload(EthRequest.getBlockTransactionCountByHash, new object[] { blockHash });
+      object? _result = await this.Send<object, object>(_data);
+      if (_result != null) return (_result as string);
+      return null;
+    }
+
+    public async Task<string?> getBlockTransactionCountByNumber(string blockNumber = BlockTag.Latest)
+    {
+      JsonRpcRequest<object> _data = this.CreatePayload(EthRequest.getBlockTransactionCountByNumber, new object[] { blockNumber });
+      object? _result = await this.Send<object, object>(_data);
+      if (_result != null) return (_result as string);
+      return null;
+    }
+
     public async Task<string?> chainId()
     {
       object? _result = await this.Send<object, object>(this.CreatePayload(EthRequest.chainId, new object[] { }));
