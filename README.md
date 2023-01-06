@@ -19,3 +19,10 @@ document [here](./documents/)
   ```shell
   dotnet run --project ./path-to-project
   ```
+
+- To test
+
+  ```shell
+  cd ./MyPracticeTest
+  dotnet test
+  ```

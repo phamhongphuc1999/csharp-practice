@@ -1,4 +1,5 @@
 ﻿using BlockchainInteraction;
+using BlockchainInteraction.ContractHandler;
 
 namespace ConsoleText
 {
@@ -6,11 +7,8 @@ namespace ConsoleText
   {
     public static void Main(string[] args)
     {
-      var etherQuery = new EtherQuery("https://bsc-dataseed.binance.org");
-      var result = etherQuery.chainId();
-      result.Wait();
-      string? abc = result.Result;
-      Console.WriteLine(abc);
+      var contractInterface = new ContractInterface("BlockchainInteraction/abis/BEP20.json");
+      Console.WriteLine(contractInterface.abi.functions.Count);
     }
   }
 }

@@ -1,5 +1,9 @@
 namespace BlockchainInteraction.ContractHandler
 {
+  public enum Filter
+  {
+    ALL, VIEW, WRITE
+  }
   public class ParamType
   {
     public string name;
@@ -20,23 +24,23 @@ namespace BlockchainInteraction.ContractHandler
   public class BaseFragment
   {
     public string name;
-    public static string type = "base";
     public ParamType[] inputs;
+    public string type;
 
-    public BaseFragment(string name, ParamType[] inputs)
+    public BaseFragment(string name, ParamType[] inputs, string type)
     {
       this.name = name;
       this.inputs = inputs;
+      this.type = type;
     }
   }
 
   public class ConstructorFragment : BaseFragment
   {
-    public static new string type = "constructor";
     public bool? payable;
     public string stateMutability;
 
-    public ConstructorFragment(string name, ParamType[] inputs, string stateMutability) : base(name, inputs)
+    public ConstructorFragment(string name, ParamType[] inputs, string stateMutability) : base(name, inputs, "constructor")
     {
       this.stateMutability = stateMutability;
     }
@@ -44,12 +48,11 @@ namespace BlockchainInteraction.ContractHandler
 
   public class FunctionFragment : BaseFragment
   {
-    public static new string type = "function";
     public bool? constant;
     public string stateMutability;
     public ParamType[] outputs;
 
-    public FunctionFragment(string name, ParamType[] inputs, ParamType[] outputs, string stateMutability) : base(name, inputs)
+    public FunctionFragment(string name, ParamType[] inputs, ParamType[] outputs, string stateMutability) : base(name, inputs, "function")
     {
       this.outputs = outputs;
       this.stateMutability = stateMutability;
@@ -58,10 +61,9 @@ namespace BlockchainInteraction.ContractHandler
 
   public class EventFragment : BaseFragment
   {
-    public static new string type = "event";
     public bool anonymous;
 
-    public EventFragment(string name, ParamType[] inputs, bool anonymous) : base(name, inputs)
+    public EventFragment(string name, ParamType[] inputs, bool anonymous) : base(name, inputs, "event")
     {
       this.anonymous = anonymous;
     }
@@ -69,19 +71,43 @@ namespace BlockchainInteraction.ContractHandler
 
   public class ErrorFragment : BaseFragment
   {
-    public static new string type = "error";
 
-    public ErrorFragment(string name, ParamType[] inputs) : base(name, inputs) { }
+    public ErrorFragment(string name, ParamType[] inputs) : base(name, inputs, "error") { }
+  }
+
+  public class GlobalFragment : BaseFragment
+  {
+    public bool? payable;
+    public string? stateMutability;
+    public bool? constant;
+    public ParamType[]? outputs;
+    public bool? anonymous;
+
+    public GlobalFragment(string name, ParamType[] inputs, string type, bool? payable, string? stateMutability, bool? constant, ParamType[]? outputs, bool? anonymous) : base(name, inputs, type)
+    {
+      this.payable = payable;
+      this.stateMutability = stateMutability;
+      this.constant = constant;
+      this.outputs = outputs;
+      this.anonymous = anonymous;
+    }
   }
 
   public class JsonContractAbi
   {
     public ConstructorFragment? constructor;
-    public FunctionFragment[] functions;
-    public EventFragment[] events;
-    public ErrorFragment[] errors;
+    public List<FunctionFragment> functions;
+    public List<EventFragment> events;
+    public List<ErrorFragment> errors;
 
-    public JsonContractAbi(FunctionFragment[] functions, EventFragment[] events, ErrorFragment[] errors)
+    public JsonContractAbi()
+    {
+      this.functions = new List<FunctionFragment>();
+      this.events = new List<EventFragment>();
+      this.errors = new List<ErrorFragment>();
+    }
+
+    public JsonContractAbi(List<FunctionFragment> functions, List<EventFragment> events, List<ErrorFragment> errors)
     {
       this.functions = functions;
       this.events = events;
