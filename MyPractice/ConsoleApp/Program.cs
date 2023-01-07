@@ -1,5 +1,5 @@
-﻿using BlockchainInteraction;
-using BlockchainInteraction.ContractHandler;
+﻿using BlockchainInteraction.ContractHandler;
+using MyNumber.NumberBase;
 
 namespace ConsoleText
 {
@@ -7,8 +7,10 @@ namespace ConsoleText
   {
     public static void Main(string[] args)
     {
-      var contractInterface = new ContractInterface("BlockchainInteraction/abis/BEP20.json");
-      Console.WriteLine(contractInterface.abi.functions.Count);
+      // var contractInterface = new ContractInterface("BlockchainInteraction/abis/BEP20.json");
+      // Console.WriteLine(contractInterface.abi.functions.Count);
+
+      Console.WriteLine(BaseConvert.ConvertToDecimal("AbCd123FFFFF123970", NumerationSystem.HEXADECIMAL));
     }
   }
 }

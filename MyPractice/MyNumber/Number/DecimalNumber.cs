@@ -315,4 +315,3 @@ namespace MyNumber.Number
     }
   }
 }
-

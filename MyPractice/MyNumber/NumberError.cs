@@ -5,4 +5,3 @@
     public NotANumber() : base("Not A Number") { }
   }
 }
-

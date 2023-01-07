@@ -267,4 +267,3 @@ namespace MyNumber.Number
     }
   }
 }
-
