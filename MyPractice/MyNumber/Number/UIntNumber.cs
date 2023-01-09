@@ -1,4 +1,5 @@
 ﻿using MyNumber.Services;
+using MyNumber.NumberBase;
 
 namespace MyNumber.Number
 {
@@ -15,9 +16,14 @@ namespace MyNumber.Number
       }
     }
 
-    public UIntNumber(string coreNumber)
+    public UIntNumber(string coreNumber, NumerationSystem numBase = NumerationSystem.DECIMAL)
     {
-      this.CoreNumber = UIntService.FormatNumber(coreNumber);
+      if (numBase == NumerationSystem.DECIMAL) this.CoreNumber = UIntService.FormatNumber(coreNumber);
+      else
+      {
+        string decimalNum = BaseConvert.ConvertToDecimal(coreNumber, numBase);
+        this.CoreNumber = UIntService.FormatNumber(decimalNum);
+      }
     }
 
     public int CompareTo(object? obj)
@@ -78,7 +84,7 @@ namespace MyNumber.Number
       return number1.IsLessThanOrEqual(number2);
     }
 
-    public bool IsGresterThan(UIntNumber number)
+    public bool IsGreaterThan(UIntNumber number)
     {
       int result = UIntService.Compare(this.CoreNumber, number.CoreNumber);
       return result == 1 ? true : false;
@@ -86,10 +92,10 @@ namespace MyNumber.Number
 
     public static bool operator >(UIntNumber number1, UIntNumber number2)
     {
-      return number1.IsGresterThan(number2);
+      return number1.IsGreaterThan(number2);
     }
 
-    public bool IsGresterThanOrEqual(UIntNumber number)
+    public bool IsGreaterThanOrEqual(UIntNumber number)
     {
       int result = UIntService.Compare(this.CoreNumber, number.CoreNumber);
       return result >= 0 ? true : false;
@@ -97,7 +103,7 @@ namespace MyNumber.Number
 
     public static bool operator >=(UIntNumber number1, UIntNumber number2)
     {
-      return number1.IsGresterThanOrEqual(number2);
+      return number1.IsGreaterThanOrEqual(number2);
     }
 
     public bool IsEqual(UIntNumber number)

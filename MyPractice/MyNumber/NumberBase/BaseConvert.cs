@@ -7,9 +7,13 @@ namespace MyNumber.NumberBase
   {
     private static Dictionary<char, string> Represent = new Dictionary<char, string>() {
       {'0', "0"}, {'1', "1"}, {'2', "2"}, {'3', "3"}, {'4', "4"}, {'5', "5"}, {'6', "6"}, {'7', "7"}, {'8', "8"}, {'9', "9"},
-      { 'a', "10" }, { 'A', "10" }, { 'b', "11" }, {'B', "11"},
-      { 'c', "12" }, {'C', "12"}, { 'd', "13" }, {'D', "13"},
+      { 'a', "10" }, { 'A', "10" }, { 'b', "11" }, {'B', "11"}, { 'c', "12" }, {'C', "12"}, { 'd', "13" }, {'D', "13"},
       { 'e', "14" }, {'E', "14"}, { 'f', "15" }, {'F', "15"} };
+
+    private static Dictionary<string, string> ReverseRepresent = new Dictionary<string, string>(){
+      {"0", "0"}, {"1", "1"}, {"2", "2"}, {"3", "3"}, {"4", "4"}, {"5", "5"}, {"6", "6"}, {"7", "7"}, {"8", "8"}, {"9", "9"},
+      {"10", "a"}, {"11", "b"}, {"12", "c"}, {"13", "d"}, {"14", "e"}, {"15", "f"}
+    };
 
     private static string GetPattern(NumerationSystem numBase)
     {
@@ -37,32 +41,95 @@ namespace MyNumber.NumberBase
       return match.Length == num.Length;
     }
 
+    public static string Format(string num, NumerationSystem numBase)
+    {
+      if (!BaseConvert.UIntValidate(num, numBase)) throw new Exception("Invalid number");
+      bool check = true;
+      int len = num.Length;
+      int count = 0;
+      while (count < len && check)
+      {
+        if (num[count] == '0') count += 1;
+        else check = false;
+      }
+      if (!check) return num.Substring(count);
+      else return "0";
+    }
+
     public static string ConvertToDecimal(string originNum, NumerationSystem originBase)
     {
-      if (BaseConvert.UIntValidate(originNum, originBase))
+      if (!BaseConvert.UIntValidate(originNum, originBase)) throw new Exception("Invalid number");
+      if (originBase == NumerationSystem.DECIMAL) return originNum;
+      string result = "0";
+      int len = originNum.Length - 1;
+      string _base = ((int)originBase).ToString();
+      string pow = "1";
+      for (int i = len; i >= 0; i--)
       {
-        string result = "0";
-        int len = originNum.Length - 1;
-        string _base = ((int)originBase).ToString();
-        string pow = "1";
-        for (int i = len; i >= 0; i--)
-        {
-          string num = BaseConvert.Represent[originNum[i]];
-          result = UIntService.Add(result, UIntService.Multiple(num, pow));
-          pow = UIntService.Multiple(_base, pow);
-        }
-        return result;
+        string num = BaseConvert.Represent[originNum[i]];
+        result = UIntService.Add(result, UIntService.Multiple(num, pow));
+        pow = UIntService.Multiple(_base, pow);
       }
-      else throw new Exception("Invalid number");
+      return result;
     }
 
     public static string ConvertFromDecimal(string decimalNumber, NumerationSystem targetBase)
     {
-      if (BaseConvert.UIntValidate(decimalNumber, NumerationSystem.DECIMAL))
+      if (!BaseConvert.UIntValidate(decimalNumber, NumerationSystem.DECIMAL)) throw new Exception("Invalid number");
+      if (targetBase == NumerationSystem.DECIMAL) return decimalNumber;
+      string _base = ((int)targetBase).ToString();
+      string result = "";
+      string baseNumber = decimalNumber;
+      while (UIntService.Compare(_base, baseNumber) <= 0)
       {
-        return "";
+        (string, string) temp = UIntService.RealDivide(baseNumber, _base);
+        result = ReverseRepresent[temp.Item2] + result;
+        baseNumber = temp.Item1;
       }
-      else throw new Exception("Invalid number");
+      result = ReverseRepresent[baseNumber] + result;
+      return result;
+    }
+
+    public static string Convert(string number, NumerationSystem originBase, NumerationSystem targetBase)
+    {
+      if (!BaseConvert.UIntValidate(number, originBase)) throw new Exception("Invalid number");
+      string decimalNumber = BaseConvert.ConvertToDecimal(number, originBase);
+      string result = BaseConvert.ConvertFromDecimal(decimalNumber, targetBase);
+      return result;
+    }
+  }
+
+  public static class IntConvert
+  {
+    public static bool IntValidate(string num, NumerationSystem numBase)
+    {
+      char sign = num[0];
+      if (!(sign == '0' | sign == '1')) return false;
+      return BaseConvert.UIntValidate(num.Substring(1), numBase);
+    }
+
+    public static string ConvertToDecimal(string originNum, NumerationSystem originBase)
+    {
+      if (!IntConvert.IntValidate(originNum, originBase)) throw new Exception("Invalid number");
+      char sign = originNum[0];
+      string result = BaseConvert.ConvertToDecimal(originNum.Substring(1), originBase);
+      return sign + result;
+    }
+
+    public static string ConvertFromDecimal(string decimalNumber, NumerationSystem targetBase)
+    {
+      if (!IntConvert.IntValidate(decimalNumber, targetBase)) throw new Exception("Invalid number");
+      char sign = decimalNumber[0];
+      string result = BaseConvert.ConvertFromDecimal(decimalNumber.Substring(1), targetBase);
+      return sign + result;
+    }
+
+    public static string Convert(string number, NumerationSystem originBase, NumerationSystem targetBase)
+    {
+      if (!IntConvert.IntValidate(number, originBase)) throw new Exception("Invalid number");
+      string decimalNumber = IntConvert.ConvertToDecimal(number, originBase);
+      string result = IntConvert.ConvertFromDecimal(decimalNumber, targetBase);
+      return result;
     }
   }
 }
