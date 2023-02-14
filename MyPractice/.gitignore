@@ -2,3 +2,4 @@ bin/
 obj/
 .vs/
 .Ds_Store
+.fake

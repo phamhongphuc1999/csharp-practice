@@ -1,16 +1,21 @@
-﻿using BlockchainInteraction.ContractHandler;
-using MyNumber.NumberBase;
+﻿using MyLibrary.Sorting;
+using ConsoleApp.Exercise;
 
-namespace ConsoleText
+namespace ConsoleApp
 {
   public static class Program
   {
     public static void Main(string[] args)
     {
-      // var contractInterface = new ContractInterface("BlockchainInteraction/abis/BEP20.json");
-      // Console.WriteLine(contractInterface.abi.functions.Count);c
-
-      Console.WriteLine(IntConvert.Convert("111111010101110000101010000100001011100011", NumerationSystem.BINARY, NumerationSystem.DECIMAL));
+      int[] a = new int[] { 31, 41, 59, 26, 41, 58, 100, 1000, 1, 0 };
+      IEnumerable<int> b = a.SelectionSort((item1, item2) =>
+      {
+        return item1 < item2;
+      });
+      foreach (int item in b)
+      {
+        Console.WriteLine(item);
+      }
     }
   }
 }

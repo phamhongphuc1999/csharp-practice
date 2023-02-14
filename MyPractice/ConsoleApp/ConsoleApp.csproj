@@ -2,7 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyNumber\MyNumber.csproj" />
     <ProjectReference Include="..\BlockchainInteraction\BlockchainInteraction.csproj" />
-    <ProjectReference Include="..\SimpleEncrypt\SimpleEncrypt.csproj" />
+    <ProjectReference Include="..\MyLibrary\MyLibrary.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>

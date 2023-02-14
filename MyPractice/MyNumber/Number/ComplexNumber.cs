@@ -1,5 +1,4 @@
-﻿using System;
-namespace MyNumber.Number
+﻿namespace MyNumber.Number
 {
   public class ComplexNumber
   {

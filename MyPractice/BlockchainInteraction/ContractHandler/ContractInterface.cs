@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using SimpleEncrypt;
 
 namespace BlockchainInteraction.ContractHandler
 {
@@ -102,19 +101,6 @@ namespace BlockchainInteraction.ContractHandler
         return fragment.name + "(" + sInputs + ")";
       }
       else return fragment.name + "()";
-    }
-
-    public string? GetSignature(string functionName)
-    {
-      FunctionFragment? fragment = this.GetFunction(functionName);
-      if (fragment != null) return this.GetSignature(fragment);
-      else return null;
-    }
-
-    public string? GetSignature(FunctionFragment fragment)
-    {
-      string functionFormat = this.GetFunctionFormat(fragment);
-      return EtherEncrypt.GetKeccak256(functionFormat).Substring(0, 10);
     }
   }
 }
