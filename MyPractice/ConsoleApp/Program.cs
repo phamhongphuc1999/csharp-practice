@@ -7,15 +7,11 @@ namespace ConsoleApp
   {
     public static void Main(string[] args)
     {
-      int[] a = new int[] { 31, 41, 59, 26, 41, 58, 100, 1000, 1, 0 };
-      IEnumerable<int> b = a.SelectionSort((item1, item2) =>
-      {
-        return item1 < item2;
-      });
-      foreach (int item in b)
-      {
-        Console.WriteLine(item);
-      }
+      int[] a = new int[] { 1, -2, -3, 100, -56, -60, 10, 45, -4 };
+      (int, int, int) result = SimpleExercise.Exercise4(a, false);
+      (int, int, int) result1 = SimpleExercise.Exercise4(a);
+      Console.WriteLine($"start: {result.Item1}, end: {result.Item2}, sum: {result.Item3}");
+      Console.WriteLine($"start: {result1.Item1}, end: {result1.Item2}, sum: {result1.Item3}");
     }
   }
 }
