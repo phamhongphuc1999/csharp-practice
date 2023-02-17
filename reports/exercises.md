@@ -30,3 +30,5 @@ Output: Mảng con của mảng trên có tổng các phần tử lớn nhất
 ---
 
 ### Exercise 5: Giống bài 4 nhưng sử dụng thuật toán O(n)
+
+### Exercise 6: Tính số fibonacci thứ n

@@ -1,8 +1,11 @@
-### My C# Practice
+<h1 align="center">
+My C# Practice
+
+</h1>
 
 | ID  | Solution                    | Note |
 | :-: | :-------------------------- | :--- |
-|  1  | [MyPractice](./MyPractice/) |
+|  1  | [MyPractice](./MyPractice/) |      |
 
 document [here](./documents/)
 

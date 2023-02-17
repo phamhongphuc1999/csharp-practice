@@ -1,3 +1,5 @@
+using MyNumber.Number;
+
 namespace ConsoleApp.Exercise
 {
   public static class SimpleExercise
@@ -99,6 +101,35 @@ namespace ConsoleApp.Exercise
         return FindMaxSubArray(arr, 0, len - 1);
       }
       return LinearSubArray(arr);
+    }
+
+    public static UIntNumber RecurrentFibonacci(int n)
+    {
+      if (n <= 2) return new UIntNumber("1");
+      else return RecurrentFibonacci(n - 1) + RecurrentFibonacci(n - 2);
+    }
+
+    public static UIntNumber DynamicFibonacci(int n)
+    {
+      if (n <= 2) return new UIntNumber("1");
+      else
+      {
+        UIntNumber a1 = new UIntNumber("1");
+        UIntNumber a2 = new UIntNumber("1");
+        for (int i = 3; i <= n; i++)
+        {
+          UIntNumber temp = a2;
+          a2 = a2 + a1;
+          a1 = temp;
+        }
+        return a2;
+      }
+    }
+
+    public static UIntNumber Exercise6(int n, bool isRecurrent = true)
+    {
+      if (isRecurrent) return RecurrentFibonacci(n);
+      else return DynamicFibonacci(n);
     }
   }
 }
