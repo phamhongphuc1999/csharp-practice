@@ -18,3 +18,10 @@
     - Nếu j > 1, nếu E[j - 1] có tổng >= 0 => E[j] = E[j - 1] + j; Nếu có tổng < 0 thì E[j] = j
   - Khi ta đã biết M[1, j] và E[j + 1]; M[1, j + 1] hoặc bằng M[1, j] hoặc bằng E[j + 1]
 - => Thuật toán này có độ phức tạp tuyến tính, O(n)
+
+---
+
+### Problem 2: Tìm số trạm xăng nhỏ nhất(exercise 9)
+
+- Bài toán này có cách tiếp cận khá giống với bài toán tìm dãy con lớn nhất
+-

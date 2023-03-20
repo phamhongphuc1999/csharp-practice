@@ -34,3 +34,17 @@ Output: Mảng con của mảng trên có tổng các phần tử lớn nhất
 ---
 
 ### Exercise 6: Tính số fibonacci thứ n
+
+---
+
+### Exercise 7: Cho trước một tập các đồng tiền mệnh giá D[1 -> i] và một mệnh giá x. Hãy tìm số lượng ít nhất các đồng tiền để đổi cho mệnh giá x?
+
+---
+
+### Exercise 8: Tìm ký tự thứ i trong G(n)(chuỗi fibonacci)
+
+---
+
+### Exercise 9: Tìm số trạm xăng ít nhất phải đổ xăng
+
+Input: Trên một quãng đường dài a km, một chiếc xe đi từ đầu đến cuối con đường với bình xăng lúc đầu đầy. Trên đường có i trạm xăng ở vị trí x[1 -> i]. Bình xăng của xe khi đầy đi được k km, tìm số trạm xăng ít nhất phải đổ để xe đi từ đầu đến cuối.
