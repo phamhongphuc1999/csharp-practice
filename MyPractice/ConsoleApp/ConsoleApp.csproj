@@ -3,6 +3,7 @@
     <ProjectReference Include="..\MyNumber\MyNumber.csproj" />
     <ProjectReference Include="..\BlockchainInteraction\BlockchainInteraction.csproj" />
     <ProjectReference Include="..\MyLibrary\MyLibrary.csproj" />
+    <ProjectReference Include="..\PGraph\PGraph.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
