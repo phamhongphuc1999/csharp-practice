@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PGraph
@@ -17,10 +16,11 @@ namespace PGraph
 
   public class EdgeGraph
   {
-    protected int nodeLimit;
+    public bool isDirection;
+    public int nodeLimit;
     protected Dictionary<int, Dictionary<int, Edge>> graph;
 
-    public EdgeGraph(int nodeLimit)
+    public EdgeGraph(int nodeLimit, bool isDirection = false)
     {
       this.nodeLimit = nodeLimit;
       this.graph = new Dictionary<int, Dictionary<int, Edge>>();
@@ -40,6 +40,12 @@ namespace PGraph
           if (edge.Key < this.nodeLimit && edge.Value.node < this.nodeLimit) this.graph[edge.Key].Add(edge.Value.node, edge.Value);
         }
       }
+    }
+
+    public Dictionary<int, Edge>? GetEdge(int node)
+    {
+      if (this.graph.ContainsKey(node)) return this.graph[node];
+      return null;
     }
 
     public void AddEdge(int node, Edge edge)

@@ -1,9 +1,4 @@
-﻿// Copyright (c) Microsoft. All Rights Reserved.
-//  License under the Apache License, Version 2.0.
-//  My library with C Sharp.
-//  Owner by Pham Hong Phuc
-
-using MyLibrary.CustomLinq;
+﻿using MyLibrary.CustomLinq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
