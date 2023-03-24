@@ -52,18 +52,14 @@ namespace ConsoleApp.Exercise
     {
       save[0] = this.item1.Length;
       save[1] = this.item2.Length;
-      Console.WriteLine($"0: {save[0]}");
-      Console.WriteLine($"1: {save[1]}");
       for (int i = 2; i < this.n; i++)
       {
         save[i] = save[i - 1] + save[i - 2];
-        Console.WriteLine($"{i}: {save[i]}");
       }
     }
 
     private string DynamicHandle(int k, int n)
     {
-      Console.WriteLine($"k: {k}, n: {n}");
       if (k < 0 || k > this.save[n]) return "";
       else if (n == 0) return this.item1[k].ToString();
       else if (n == 1) return this.item2[k].ToString();

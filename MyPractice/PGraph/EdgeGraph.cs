@@ -18,7 +18,7 @@ namespace PGraph
   {
     public bool isDirection;
     public int nodeLimit;
-    protected Dictionary<int, Dictionary<int, Edge>> graph;
+    public Dictionary<int, Dictionary<int, Edge>> graph { get; private set; }
 
     public EdgeGraph(int nodeLimit, bool isDirection = false)
     {
@@ -30,16 +30,20 @@ namespace PGraph
     {
       this.nodeLimit = nodeLimit;
       int len = list.Count;
-      int counter = len < nodeLimit ? len : nodeLimit;
-      this.graph = new Dictionary<int, Dictionary<int, Edge>>();
-      for (int i = 0; i < counter; i++)
+      Dictionary<int, Dictionary<int, Edge>> _graph = new Dictionary<int, Dictionary<int, Edge>>();
+      for (int i = 0; i < this.nodeLimit; i++)
       {
-        Dictionary<int, Edge> edges = list[i];
-        foreach (KeyValuePair<int, Edge> edge in edges)
+        if (list.ContainsKey(i))
         {
-          if (edge.Key < this.nodeLimit && edge.Value.node < this.nodeLimit) this.graph[edge.Key].Add(edge.Value.node, edge.Value);
+          _graph[i] = new Dictionary<int, Edge>();
+          Dictionary<int, Edge> edges = list[i];
+          foreach (KeyValuePair<int, Edge> edge in edges)
+          {
+            if (edge.Key < this.nodeLimit) _graph[i].Add(edge.Key, edge.Value);
+          }
         }
       }
+      this.graph = list;
     }
 
     public Dictionary<int, Edge>? GetEdge(int node)
@@ -61,6 +65,12 @@ namespace PGraph
     public void AddEdge(int target, int node, long weight = 0)
     {
       this.AddEdge(target, new Edge(node, weight));
+    }
+
+    public void AddBothEdges(int node1, int node2, long weight = 0)
+    {
+      this.AddEdge(node1, new Edge(node2, weight));
+      this.AddEdge(node2, new Edge(node1, weight));
     }
 
     public void RemoveEdge(int node, int edge)

@@ -3,3 +3,4 @@ obj/
 .vs/
 .Ds_Store
 .fake
+path.json
