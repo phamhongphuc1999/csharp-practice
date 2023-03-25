@@ -2,75 +2,61 @@ using System.Collections.Generic;
 
 namespace PGraph
 {
-  public struct Edge
-  {
-    public int node;
-    public long weight;
-
-    public Edge(int node, long weight)
-    {
-      this.node = node;
-      this.weight = weight;
-    }
-  }
-
   public class EdgeGraph
   {
-    public bool isDirection;
     public int nodeLimit;
-    public Dictionary<int, Dictionary<int, Edge>> graph { get; private set; }
+    public Dictionary<int, Dictionary<int, long>> graph { get; private set; }
 
-    public EdgeGraph(int nodeLimit, bool isDirection = false)
+    public EdgeGraph(int nodeLimit)
     {
       this.nodeLimit = nodeLimit;
-      this.graph = new Dictionary<int, Dictionary<int, Edge>>();
+      this.graph = new Dictionary<int, Dictionary<int, long>>();
     }
 
-    public EdgeGraph(int nodeLimit, Dictionary<int, Dictionary<int, Edge>> list)
+    public EdgeGraph(int nodeLimit, Dictionary<int, Dictionary<int, long>> list, bool isCheck = true)
     {
-      this.nodeLimit = nodeLimit;
-      int len = list.Count;
-      Dictionary<int, Dictionary<int, Edge>> _graph = new Dictionary<int, Dictionary<int, Edge>>();
-      for (int i = 0; i < this.nodeLimit; i++)
+      if (isCheck)
       {
-        if (list.ContainsKey(i))
+        this.nodeLimit = nodeLimit;
+        int len = list.Count;
+        Dictionary<int, Dictionary<int, long>> _graph = new Dictionary<int, Dictionary<int, long>>();
+        for (int i = 0; i < this.nodeLimit; i++)
         {
-          _graph[i] = new Dictionary<int, Edge>();
-          Dictionary<int, Edge> edges = list[i];
-          foreach (KeyValuePair<int, Edge> edge in edges)
+          if (list.ContainsKey(i))
           {
-            if (edge.Key < this.nodeLimit) _graph[i].Add(edge.Key, edge.Value);
+            _graph[i] = new Dictionary<int, long>();
+            Dictionary<int, long> edges = list[i];
+            foreach (KeyValuePair<int, long> edge in edges)
+            {
+              if (edge.Key < this.nodeLimit) _graph[i].Add(edge.Key, edge.Value);
+            }
           }
         }
+        this.graph = _graph;
       }
-      this.graph = list;
+      else this.graph = list;
     }
 
-    public Dictionary<int, Edge>? GetEdge(int node)
+    public Dictionary<int, long>? GetEdge(int node)
     {
       if (this.graph.ContainsKey(node)) return this.graph[node];
       return null;
     }
 
-    public void AddEdge(int node, Edge edge)
-    {
-      if (node < this.nodeLimit && edge.node < this.nodeLimit)
-      {
-        bool isContain = this.graph.ContainsKey(node);
-        if (isContain) this.graph[node][edge.node] = edge;
-        else this.graph.Add(node, new Dictionary<int, Edge>() { { edge.node, edge } });
-      }
-    }
-
     public void AddEdge(int target, int node, long weight = 0)
     {
-      this.AddEdge(target, new Edge(node, weight));
+      if (target < this.nodeLimit && node < this.nodeLimit)
+      {
+        bool isContain = this.graph.ContainsKey(target);
+        if (isContain) this.graph[target][node] = weight;
+        else this.graph.Add(target, new Dictionary<int, long>() { { node, weight } });
+      }
     }
 
     public void AddBothEdges(int node1, int node2, long weight = 0)
     {
-      this.AddEdge(node1, new Edge(node2, weight));
-      this.AddEdge(node2, new Edge(node1, weight));
+      this.AddEdge(node1, node2, weight);
+      this.AddEdge(node2, node1, weight);
     }
 
     public void RemoveEdge(int node, int edge)
@@ -93,7 +79,7 @@ namespace PGraph
           result.Add(item);
           try
           {
-            Dictionary<int, Edge>.KeyCollection nodes = this.graph[item].Keys;
+            Dictionary<int, long>.KeyCollection nodes = this.graph[item].Keys;
             foreach (int node in nodes)
             {
               if (!visited.Contains(node))
@@ -124,7 +110,7 @@ namespace PGraph
           result.Add(item);
           try
           {
-            Dictionary<int, Edge>.KeyCollection nodes = this.graph[item].Keys;
+            Dictionary<int, long>.KeyCollection nodes = this.graph[item].Keys;
             foreach (int node in nodes)
             {
               if (!visited.Contains(node))
@@ -144,14 +130,14 @@ namespace PGraph
     public override string ToString()
     {
       string result = "";
-      foreach (KeyValuePair<int, Dictionary<int, Edge>> nodeData in this.graph)
+      foreach (KeyValuePair<int, Dictionary<int, long>> nodeData in this.graph)
       {
         int nodeIndex = nodeData.Key;
-        Dictionary<int, Edge> edges = nodeData.Value;
+        Dictionary<int, long> edges = nodeData.Value;
         result += $"node {nodeIndex}: ";
-        foreach (KeyValuePair<int, Edge> edge in edges)
+        foreach (KeyValuePair<int, long> edge in edges)
         {
-          result += $"({edge.Key}, {edge.Value.weight}), ";
+          result += $"({edge.Key}, {edge.Value}), ";
         }
         result += "\n";
       }

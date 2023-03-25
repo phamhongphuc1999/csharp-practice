@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace PGraph
 {
   public struct DijkstraData
@@ -55,17 +52,17 @@ namespace PGraph
       while (isNotFinish)
       {
         finishedNode.Add(currentMinNode);
-        Dictionary<int, Edge>? edges = graph.GetEdge(currentMinNode);
+        Dictionary<int, long>? edges = graph.GetEdge(currentMinNode);
         if (edges == null) isNotFinish = false;
         else
         {
           if (edges.Count == 0) isNotFinish = false;
-          foreach (KeyValuePair<int, Edge> edge in edges)
+          foreach (KeyValuePair<int, long> edge in edges)
           {
             if (result.ContainsKey(edge.Key))
             {
               long currentWeight = result[edge.Key];
-              long targetWeight = result[currentMinNode] + edge.Value.weight;
+              long targetWeight = result[currentMinNode] + edge.Value;
               if (currentWeight > targetWeight)
               {
                 result[edge.Key] = targetWeight;
@@ -75,7 +72,7 @@ namespace PGraph
             }
             else
             {
-              result[edge.Key] = result[currentMinNode] + edge.Value.weight;
+              result[edge.Key] = result[currentMinNode] + edge.Value;
               if (trace.ContainsKey(edge.Key)) trace[edge.Key] = currentMinNode;
               else trace.Add(edge.Key, currentMinNode);
             }
@@ -110,27 +107,27 @@ namespace PGraph
         {
           finishedNode.Add(node);
           result.Add(node, weight);
-          Dictionary<int, Edge>? edges = graph.GetEdge(node);
+          Dictionary<int, long>? edges = graph.GetEdge(node);
           if (edges != null)
           {
             if (edges.Count > 0)
             {
-              foreach (KeyValuePair<int, Edge> edge in edges)
+              foreach (KeyValuePair<int, long> edge in edges)
               {
                 if (result.ContainsKey(edge.Key))
                 {
                   long currentWeight = result[edge.Key];
-                  long targetWeight = result[node] + edge.Value.weight;
+                  long targetWeight = result[node] + edge.Value;
                   if (currentWeight > targetWeight)
                   {
-                    store.Enqueue(edge.Key, edge.Value.weight);
+                    store.Enqueue(edge.Key, edge.Value);
                     if (trace.ContainsKey(edge.Key)) trace[edge.Key] = node;
                     else trace.Add(edge.Key, node);
                   }
                 }
                 else
                 {
-                  store.Enqueue(edge.Key, result[node] + edge.Value.weight);
+                  store.Enqueue(edge.Key, result[node] + edge.Value);
                   if (trace.ContainsKey(edge.Key)) trace[edge.Key] = node;
                   else trace.Add(edge.Key, node);
                 }

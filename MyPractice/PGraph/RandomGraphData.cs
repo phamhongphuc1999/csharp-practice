@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Collections.Concurrent;
 
 namespace PGraph
 {
@@ -23,27 +23,28 @@ namespace PGraph
       return result;
     }
 
-    private void CreatePartialEdge(int index, int begin, int end, List<int> source, List<Dictionary<int, long>> store)
+    private void CreatePartialEdge(int index, int begin, int end, List<int> source, ConcurrentQueue<(int, Dictionary<int, long>)> cp)
     {
       Random random = new Random();
       for (int node = begin; node <= end; node++)
       {
         int numberOfNode2 = source[node];
-        // Dictionary<int, long> data = new Dictionary<int, long>();
+        Dictionary<int, long> data = new Dictionary<int, long>();
         for (int i = 0; i < numberOfNode2; i++)
         {
           int node2 = node;
-          while (node2 == node || store[node].ContainsKey(node2))
+          while (node2 == node || data.ContainsKey(node2))
           {
             node2 = random.Next(0, this.numberOfNode);
           }
           long weight = random.NextInt64(1, 10000);
-          store[node].Add(node2, weight);
+          data.Add(node2, weight);
         }
+        cp.Enqueue((node, data));
       }
     }
 
-    public List<int> CreateRawEdge(int numberOdEdge, int numberOfThread = 10)
+    public Dictionary<int, Dictionary<int, long>> CreateRawGraphThread(int numberOdEdge, int numberOfThread = 10)
     {
       List<int> result = new List<int>();
       int currentEdge = 0;
@@ -59,11 +60,10 @@ namespace PGraph
         result.Add(rEdge);
       }
       result.Add(numberOdEdge - currentEdge);
-      List<Dictionary<int, long>> store = new List<Dictionary<int, long>>(this.numberOfNode);
-      for (int i = 0; i < this.numberOfNode; i++) store.Add(new Dictionary<int, long>());
+      ConcurrentQueue<(int, Dictionary<int, long>)> cq = new ConcurrentQueue<(int, Dictionary<int, long>)>();
       int batchSize = this.numberOfNode / numberOfThread;
       CountdownEvent countdownEvent = new CountdownEvent(numberOfThread);
-      for (int i = 0; i < numberOfThread; i++)
+      for (int i = 0; i < numberOfThread - 1; i++)
       {
         ThreadPool.QueueUserWorkItem((x) =>
         {
@@ -72,7 +72,8 @@ namespace PGraph
             int xIndex = (int)x;
             int beginIndex = xIndex * batchSize;
             int endIndex = xIndex * batchSize + batchSize - 1;
-            CreatePartialEdge(xIndex + 1, beginIndex, endIndex, result, store);
+            List<int> copyData = result.GetRange(beginIndex, batchSize);
+            CreatePartialEdge(xIndex + 1, beginIndex, endIndex, result, cq);
             Console.WriteLine($"thread {xIndex + 1} finished: {beginIndex} - {endIndex}");
           }
           countdownEvent.Signal();
@@ -80,56 +81,48 @@ namespace PGraph
       }
       ThreadPool.QueueUserWorkItem((x) =>
       {
-        int beginIndex = 9 * batchSize;
-        CreatePartialEdge(numberOfThread, beginIndex, this.numberOfNode - 1, result, store);
+        int beginIndex = (numberOfThread - 1) * batchSize;
+        CreatePartialEdge(numberOfThread, beginIndex, this.numberOfNode - 1, result, cq);
         Console.WriteLine($"thread {numberOfThread} finished: {beginIndex} - {this.numberOfNode - 1}");
         countdownEvent.Signal();
       });
       countdownEvent.Wait();
-
-      int counter = 0;
-      foreach (Dictionary<int, long> item in store)
+      List<(int, Dictionary<int, long>)> temp = cq.ToList();
+      Dictionary<int, Dictionary<int, long>> finalResult = new Dictionary<int, Dictionary<int, long>>();
+      foreach ((int, Dictionary<int, long>) item in temp)
       {
-        counter += item.Count();
+        int node = item.Item1;
+        Dictionary<int, long> edges = item.Item2;
+        if (edges.Count > 0) finalResult[node] = edges;
       }
-      string json = JsonConvert.SerializeObject(store, Formatting.Indented);
-      File.WriteAllText("path.json", json);
-      // Console.WriteLine(json);
-      Console.WriteLine($"--f-f-f-f-f-f-f-f----{counter}");
-      return result;
+      return finalResult;
     }
 
-    public Dictionary<(int, int), long> CreateEdge(int numberOfEdge)
+    public Dictionary<int, Dictionary<int, long>> CreateRawGraph(int numberOfEdge)
     {
-      Dictionary<(int, int), long> result = new Dictionary<(int, int), long>();
+      Dictionary<(int, int), long> edges = new Dictionary<(int, int), long>();
       int targetEdges = Math.Min(numberOfEdge, this.maxEdges);
       Random random = new Random();
-      while (result.Count() < targetEdges)
+      while (edges.Count() < targetEdges)
       {
         int node1 = random.Next(0, this.numberOfNode);
         int node2 = node1;
         while (node2 == node1) node2 = random.Next(0, this.numberOfNode);
-        if (!result.ContainsKey((node1, node2)))
+        if (!edges.ContainsKey((node1, node2)))
         {
           long weight = random.NextInt64(1, 10000);
-          result.Add((node1, node2), weight);
+          edges.Add((node1, node2), weight);
         }
       }
-      return result;
-    }
-
-    public EdgeGraph CreateEdgeGraph(Dictionary<(int, int), long> edges)
-    {
-      Dictionary<int, Dictionary<int, Edge>> graph = new Dictionary<int, Dictionary<int, Edge>>();
+      Dictionary<int, Dictionary<int, long>> graph = new Dictionary<int, Dictionary<int, long>>();
       foreach (KeyValuePair<(int, int), long> edge in edges)
       {
         int key = edge.Key.Item1;
         int itemKey = edge.Key.Item2;
-        Edge realEdge = new Edge(edge.Key.Item2, edge.Value);
-        if (graph.ContainsKey(key)) graph[key].Add(itemKey, realEdge);
-        else graph[key] = new Dictionary<int, Edge>() { { itemKey, realEdge } };
+        if (graph.ContainsKey(key)) graph[key].Add(itemKey, edge.Value);
+        else graph[key] = new Dictionary<int, long>() { { itemKey, edge.Value } };
       }
-      return new EdgeGraph(this.numberOfNode, graph);
+      return graph;
     }
   }
 }
