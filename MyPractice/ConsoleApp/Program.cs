@@ -1,5 +1,4 @@
 ﻿using PGraph;
-using System.Diagnostics;
 
 namespace ConsoleApp
 {
@@ -7,7 +6,7 @@ namespace ConsoleApp
   {
     public static void Main(string[] args)
     {
-      Helper.RunAllDijkstra();
+      Helper.RunCase(11);
     }
   }
 }

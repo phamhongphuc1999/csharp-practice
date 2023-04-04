@@ -4,40 +4,36 @@ namespace PGraph
 {
   public static class Helper
   {
+    public static void RunCase(int index)
+    {
+      (int, int, int) caseData = LoadFileData.CASE[index];
+      int numberOfNodes = caseData.Item1;
+      int numberOfEdges = caseData.Item2;
+      int targetNode = caseData.Item3;
+      string key = $"{numberOfNodes}_{numberOfEdges}";
+      Dictionary<int, Dictionary<int, long>>? data = LoadFileData.GetGraphData($"{key}.json");
+      Stopwatch watch = Stopwatch.StartNew();
+      long frequency = Stopwatch.Frequency;
+      if (data != null)
+      {
+        EdgeGraph graph = new EdgeGraph(numberOfNodes, data);
+        long tick1 = watch.ElapsedTicks;
+        graph.HandleDijkstra(targetNode);
+        long tick2 = watch.ElapsedTicks;
+        Console.WriteLine($"{key}-{targetNode}: {(float)(tick2 - tick1) / frequency} m");
+
+        tick1 = watch.ElapsedTicks;
+        graph.HandleDijkstraWithPriorityQueue(targetNode);
+        tick2 = watch.ElapsedTicks;
+        Console.WriteLine($"{key}-{targetNode} with priority: {(float)(tick2 - tick1) / frequency} m");
+        Console.WriteLine("==========================================================");
+      }
+    }
+
     public static void RunAllDijkstra()
     {
-      Dictionary<string, Dictionary<int, Dictionary<int, long>>> store = new Dictionary<string, Dictionary<int, Dictionary<int, long>>>();
-      foreach ((int, int, int) caseData in LoadFileData.CASE)
-      {
-        int numberOfNodes = caseData.Item1;
-        int numberOfEdges = caseData.Item2;
-        string key = $"{numberOfNodes}_{numberOfEdges}";
-        Dictionary<int, Dictionary<int, long>>? data = LoadFileData.GetGraphData($"{key}.json");
-        if (data != null) store.Add(key, data);
-      }
-      Stopwatch watch = new Stopwatch();
-      foreach ((int, int, int) caseData in LoadFileData.CASE)
-      {
-        int numberOfNodes = caseData.Item1;
-        int numberOfEdges = caseData.Item2;
-        int targetNode = caseData.Item3;
-        string key = $"{numberOfNodes}_{numberOfEdges}";
-        Dictionary<int, Dictionary<int, long>>? data = store.GetValueOrDefault(key);
-        if (data != null)
-        {
-          EdgeGraph graph = new EdgeGraph(numberOfNodes, data);
-          watch.Restart();
-          DijkstraData result = graph.HandleDijkstra(targetNode);
-          watch.Stop();
-          Console.WriteLine($"{key}: {watch.ElapsedMilliseconds} mn");
-
-          watch.Restart();
-          result = graph.HandleDijkstraWithPriorityQueue(targetNode);
-          watch.Stop();
-          Console.WriteLine($"{key} with priority: {watch.ElapsedMilliseconds} mn");
-          Console.WriteLine("==========================================================");
-        }
-      }
+      int len = LoadFileData.CASE.Length;
+      for (int i = 0; i < len; i++) RunCase(i);
     }
   }
 }
