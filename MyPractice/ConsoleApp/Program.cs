@@ -1,5 +1,5 @@
 ﻿using PGraph;
-using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ConsoleApp
 {
@@ -7,7 +7,7 @@ namespace ConsoleApp
   {
     public static void Main(string[] args)
     {
-      LoadFileData.RenderRandomGraph();
+      Helper.RunAllDijkstra();
     }
   }
 }

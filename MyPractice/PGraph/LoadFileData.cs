@@ -5,10 +5,10 @@ namespace PGraph
 {
   public static class LoadFileData
   {
-    public static (int, int)[] CASE = new (int, int)[] {
-      (100, 50), (100, 100), (100, 200), (100, 4950),
-      (1000, 500), (1000, 1000), (1000, 2000), (1000, 499500),
-      (10000, 5000), (10000, 10000), (10000, 20000), (10000, 49995000)
+    public static (int, int, int)[] CASE = new (int, int, int)[] {
+      (100, 50, 74), (100, 100, 56), (100, 200, 60), (100, 4950, 0),
+      (1000, 500, 458), (1000, 1000, 352), (1000, 2000, 771), (1000, 499500, 0),
+      (10000, 5000, 7399), (10000, 10000, 0), (10000, 20000, 0), (10000, 49995000, 0)
     };
 
     public static int[] ThreadCase = new int[] { 7, 9, 10, 11 };
@@ -41,7 +41,7 @@ namespace PGraph
 
     public static void SaveCase(int numberOfCase)
     {
-      (int, int) data = CASE[numberOfCase];
+      (int, int, int) data = CASE[numberOfCase];
       Console.WriteLine($"nodes: {data.Item1}, edges: {data.Item2}");
       RandomGraphData r = new RandomGraphData(data.Item1);
       if (ThreadCase.Contains(numberOfCase))
