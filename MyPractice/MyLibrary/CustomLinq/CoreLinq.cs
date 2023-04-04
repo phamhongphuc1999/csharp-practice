@@ -1,8 +1,7 @@
-﻿using MyLibrary.Sort;
+﻿using MyLibrary.Sorting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SelectType = MyLibrary.Sort.Config.PivotType;
 
 namespace MyLibrary.CustomLinq
 {
@@ -149,14 +148,14 @@ namespace MyLibrary.CustomLinq
             else return CustomSearchPosition(source, value, begin, middle, comparer);
         }
 
-        private static T QuickSelectList<T>(List<T> source, int begin, int end, int index, SelectType type, Func<T, T, bool> comparer)
+        private static T QuickSelectList<T>(List<T> source, int begin, int end, int index, PivotType type, Func<T, T, bool> comparer)
         {
             if (end - begin + 1 >= index)
             {
                 int partition = 0;
-                if (type == SelectType.HEADER) partition = CommonSort.Partition(source, begin, end, begin, comparer);
-                else if (type == SelectType.END) partition = CommonSort.Partition(source, begin, end, end, comparer);
-                else partition = CommonSort.Partition(source, begin, end, (begin + end) / 2, comparer);
+                if (type == PivotType.HEADER) partition = BaseSort.Partition(source, begin, end, begin, comparer);
+                else if (type == PivotType.END) partition = BaseSort.Partition(source, begin, end, end, comparer);
+                else partition = BaseSort.Partition(source, begin, end, (begin + end) / 2, comparer);
                 if (index + begin < partition) QuickSelectList(source, begin, partition, index, type, comparer);
                 else if (index + begin > partition) QuickSelectList(source, partition + 1, end, index - partition + begin - 1, type, comparer);
                 else return source[partition];
@@ -168,7 +167,7 @@ namespace MyLibrary.CustomLinq
         {
             if (end - begin + 1 >= index)
             {
-                int partition = CommonSort.RandomPartition(source, begin, end, comparer);
+                int partition = BaseSort.RandomPartition(source, begin, end, comparer);
                 if (index + begin < partition) QuickSelectList(source, begin, partition, index, comparer);
                 else if (index + begin > partition) QuickSelectList(source, partition + 1, end, index - partition + begin - 1, comparer);
                 else return source[partition];
@@ -176,7 +175,7 @@ namespace MyLibrary.CustomLinq
             throw new IndexOutOfRangeException();
         }
 
-        public static T QuickSelect<T>(this IEnumerable<T> source, int begin, int end, int index, SelectType type, Func<T, T, bool> comparer)
+        public static T QuickSelect<T>(this IEnumerable<T> source, int begin, int end, int index, PivotType type, Func<T, T, bool> comparer)
         {
             List<T> list = source.ToList();
             return QuickSelectList(list, begin, end, index, type, comparer);

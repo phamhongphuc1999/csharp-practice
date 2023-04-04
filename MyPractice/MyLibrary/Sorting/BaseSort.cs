@@ -5,6 +5,13 @@ using MyLibrary.CustomLinq;
 
 namespace MyLibrary.Sorting
 {
+    public enum PivotType
+    {
+        HEADER,
+        END,
+        MEDIUM
+    }
+
     public static partial class BaseSort
     {
         public static IEnumerable<T> BubbleSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer, bool isReverse)
@@ -114,6 +121,64 @@ namespace MyLibrary.Sorting
             int count = arr.Count();
             RecurrentMergeSort(arr, 0, count - 1, comparer);
             return arr;
+        }
+
+        public static int Partition<T>(List<T> source, int begin, int end, int pivot, Func<T, T, bool> comparer)
+        {
+            int low = begin, hight = end;
+            T value = source[pivot];
+            while (true)
+            {
+                while (comparer(source[low], value)) low++;
+                while (comparer(value, source[hight])) hight--;
+                if (low < hight) source.SWAP(low, hight);
+                else return hight;
+            }
+        }
+
+        public static int RandomPartition<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
+        {
+            int low = begin, hight = end;
+            Random random = new Random();
+            int pivot = random.Next(begin, end);
+            return Partition(source, begin, end, pivot, comparer);
+        }
+
+        private static void QuickListSort<T>(List<T> source, int begin, int end, PivotType type, Func<T, T, bool> comparer)
+        {
+            if (begin < end)
+            {
+                int partition = 0;
+                if (type == PivotType.HEADER) partition = Partition(source, begin, end, begin, comparer);
+                else if (type == PivotType.END) partition = Partition(source, begin, end, end, comparer);
+                else partition = Partition(source, begin, end, (begin + end) / 2, comparer);
+                QuickListSort(source, begin, partition, type, comparer);
+                QuickListSort(source, partition + 1, end, type, comparer);
+            }
+        }
+
+        private static void QuickListSort<T>(List<T> source, int begin, int end, Func<T, T, bool> comparer)
+        {
+            if (begin < end)
+            {
+                int partition = RandomPartition(source, begin, end, comparer);
+                QuickListSort(source, begin, partition, comparer);
+                QuickListSort(source, partition + 1, end, comparer);
+            }
+        }
+
+        public static IEnumerable<T> QuickSort<T>(this IEnumerable<T> source, PivotType type, Func<T, T, bool> comparer)
+        {
+            List<T> list = source.ToList();
+            QuickListSort(list, 0, list.Count - 1, type, comparer);
+            return list;
+        }
+
+        public static IEnumerable<T> RandomQuickSort<T>(this IEnumerable<T> source, Func<T, T, bool> comparer)
+        {
+            List<T> list = source.ToList();
+            QuickListSort(list, 0, list.Count - 1, comparer);
+            return list;
         }
     }
 }

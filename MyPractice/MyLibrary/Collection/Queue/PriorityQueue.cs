@@ -1,4 +1,4 @@
-﻿using MyLibrary.Sort;
+﻿using MyLibrary.Sorting;
 using System;
 using System.Collections.Generic;
 

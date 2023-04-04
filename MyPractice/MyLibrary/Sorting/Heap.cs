@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyLibrary.Sort
+namespace MyLibrary.Sorting
 {
     public static partial class Heap
     {

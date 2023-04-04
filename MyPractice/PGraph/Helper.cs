@@ -20,12 +20,12 @@ namespace PGraph
         long tick1 = watch.ElapsedTicks;
         graph.HandleDijkstra(targetNode);
         long tick2 = watch.ElapsedTicks;
-        Console.WriteLine($"{key}-{targetNode}: {(float)(tick2 - tick1) / frequency} m");
+        Console.WriteLine($"{key}-{targetNode}: {(float)(tick2 - tick1) / frequency / 60} m");
 
         tick1 = watch.ElapsedTicks;
         graph.HandleDijkstraWithPriorityQueue(targetNode);
         tick2 = watch.ElapsedTicks;
-        Console.WriteLine($"{key}-{targetNode} with priority: {(float)(tick2 - tick1) / frequency} m");
+        Console.WriteLine($"{key}-{targetNode} with priority: {(float)(tick2 - tick1) / frequency / 60} m");
         Console.WriteLine("==========================================================");
       }
     }
