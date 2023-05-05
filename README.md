@@ -29,7 +29,3 @@ document [here](./documents/)
   cd ./MyPracticeTest
   dotnet test
   ```
-
-### Reference
-
-- https://regexone.com/

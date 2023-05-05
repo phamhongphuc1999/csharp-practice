@@ -1,12 +1,5 @@
 <h1 align="center">Thuật toán</h1>
 
-### Ghi chú: Các công việc cần làm
-
-- Cách tính toán các tiệm cận trong một bài toán cụ thể
-- Cách viết mã giả(không quan trọng lắm)
-- Tìm hiểu bài toán đệ quy
-- Các tính độ phức tạp trng bài toán đệ quy
-
 ---
 
 ### 1. Loop invariants
