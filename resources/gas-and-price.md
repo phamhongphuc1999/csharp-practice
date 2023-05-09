@@ -53,4 +53,4 @@ Gas limit is the maximum number of units of gas you are willing to pay for in or
 - https://ethereum.org/en/developers/docs/gas/
 - https://www.blocknative.com/blog/eip-1559-fees
 - https://www.notonlyowner.com/learn/what-happens-when-you-send-one-dai
-- https://docs.alchemy.com/docs/how-to-build-a-gas-fee-estimator-using-eip-1559
+- https://docs.alchemy.com/reference/eth-accounts
