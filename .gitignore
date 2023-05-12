@@ -4,3 +4,5 @@ obj/
 packages/
 .Ds_Store
 .fake
+venv/
+pyvenv.cfg

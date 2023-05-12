@@ -3,13 +3,13 @@ My C# Practice
 
 </h1>
 
-| ID  | Solution                    | Note |
-| :-: | :-------------------------- | :--- |
-|  1  | [MyPractice](./MyPractice/) |      |
+| ID  | Solution                    | Note                 |
+| :-: | :-------------------------- | :------------------- |
+|  1  | [MyPractice](./MyPractice/) | MY practice solution |
 
 document [here](./documents/)
 
-### How to run with dotnet command
+### Run
 
 - To build
 
@@ -29,3 +29,29 @@ document [here](./documents/)
   cd ./MyPracticeTest
   dotnet test
   ```
+
+### Format
+
+The project use `pre-commit` and python environment to install some useful package that check your code before pushing code in github. If you want to try this solution, you must create python virtual environment firstly
+
+```shell
+python -m venv venv
+```
+
+After that, install pre-commit package
+
+```shell
+pip3 install -r requirements.txt
+```
+
+Install pre-commit to github hook
+
+```shell
+pre-commit install
+```
+
+Try to run
+
+```shell
+pre-commit run --all-file
+```
