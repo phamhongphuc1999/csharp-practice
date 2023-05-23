@@ -26,7 +26,6 @@ document [here](./documents/)
 - To test
 
   ```shell
-  cd ./MyPracticeTest
   dotnet test
   ```
 

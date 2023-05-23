@@ -2,7 +2,7 @@ name: my-practice-workflow
 on:
   push:
     branches:
-      - master
+      - main
       - develop
     paths:
       - "!**.md"
@@ -13,7 +13,7 @@ on:
       - "MyPractice/**"
   pull_request:
     branches:
-      - master
+      - main
       - develop
 jobs:
   build:

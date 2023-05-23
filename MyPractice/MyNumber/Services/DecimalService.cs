@@ -40,7 +40,7 @@ namespace MyNumber.Services
         if (decimalNumber[len - count] == '0') count++;
         else check = false;
       }
-      if (!check) decimalNumberFormat = decimalNumber.Substring(0, len - count);
+      if (!check) decimalNumberFormat = decimalNumber.Substring(0, len - count + 1);
       else decimalNumberFormat = "";
       string result = "";
       if (decimalNumberFormat == "") result = intNumberFormat;

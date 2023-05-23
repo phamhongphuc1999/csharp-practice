@@ -3,7 +3,7 @@
 1. [Overview](#overview)
 2. [eth_estimateUserOperationGas](#eth_estimateUserOperationGas)
 
-### Overview <a name="overview"</a>
+### Overview <a name="overview"></a>
 
 You should read [ERC 4337](./erc-4337.md) and [gas and price](../gas-and-price.md) to have the sense to overview. In this topic, we will concern about gas and price in account abstraction. Because of different structure, gas and price in account abstraction differ in other transactions. The below table lists `UserOperation` parameters related gas and price
 
@@ -15,7 +15,7 @@ You should read [ERC 4337](./erc-4337.md) and [gas and price](../gas-and-price.m
 | maxFeePerGas         | uint256 | Maximum fee per gas(similar to EIP-1559 max_fee_per_gas)                                           |
 | maxPriorityFeePerGas | uint256 | Maximum priority fee per gas                                                                       |
 
-### [eth_estimateUserOperationGas] <a name="eth_estimateUserOperationGas"></a>
+### eth_estimateUserOperationGas <a name="eth_estimateUserOperationGas"></a>
 
 `eth_estimateUserOperationGas` is a RPC defined by the bundler; the input of this RPC is `UserOperation` and it will return a estimated data for three parameters: `callGasLimit`, `verificationGasLimit` and `preVerificationGas`.
 
