@@ -1,7 +1,7 @@
 ### Reference
 
 1. [What is gas?](#what_is_gas)
-2. [Block size](#block-size)
+2. [Block size](#block_size)
 3. [Base fee](#base_fee)
 4. [Priority fee(tips)](#priority_fee)
 5. [Max fee](#max_fee)

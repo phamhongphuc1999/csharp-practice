@@ -31,25 +31,26 @@ document [here](./documents/)
 
 ### Format
 
-The project use `pre-commit` and python environment to install some useful package that check your code before pushing code in github. If you want to try this solution, you must create python virtual environment firstly
+- The project use `pre-commit` and python environment to install some useful package that check your code before pushing code in github. If you want to try this solution, you must create python virtual environment firstly
 
 ```shell
 python -m venv venv
 ```
 
-After that, install pre-commit package
+- After that, activate the environment and install pre-commit package
 
 ```shell
+source ./venv/activate/bin
 pip3 install -r requirements.txt
 ```
 
-Install pre-commit to github hook
+- Install pre-commit to github hook
 
 ```shell
 pre-commit install
 ```
 
-Try to run
+- Try to run
 
 ```shell
 pre-commit run --all-file

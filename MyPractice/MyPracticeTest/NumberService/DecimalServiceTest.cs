@@ -36,5 +36,13 @@ namespace MyPracticeTest.NumberService
       (int, string, string) data = DecimalService.DeepGetIntegerAndDecimal(number);
       Assert.IsTrue(data.Item1 == expectedSign && data.Item2 == integer && data.Item3 == expectedDecimal);
     }
+
+    [Test]
+    [TestCase("1.0001", true)]
+    public void IsNumberTest(string number, bool expect)
+    {
+      bool result = DecimalService.IsNumber(number);
+      Assert.IsTrue(result == expect);
+    }
   }
 }
