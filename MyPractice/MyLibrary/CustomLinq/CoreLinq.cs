@@ -7,14 +7,14 @@ namespace MyLibrary.CustomLinq
 {
     public static partial class CoreLinq
     {
-        public static bool SWAP<T>(this List<T> source, int x, int y)
+        public static bool SWAP<T>(this List<T> source, int index1, int index2)
         {
             int count = source.Count;
-            if (x < 0 || y < 0 || x >= count || y >= count) return false;
-            if (x == y) return true;
-            T temp = source[x];
-            source[x] = source[y];
-            source[y] = temp;
+            if (index1 < 0 || index2 < 0 || index1 >= count || index2 >= count) return false;
+            if (index1 == index2) return true;
+            T temp = source[index1];
+            source[index1] = source[index2];
+            source[index2] = temp;
             return true;
         }
 

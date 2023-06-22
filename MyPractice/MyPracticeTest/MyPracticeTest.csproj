@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyNumber\MyNumber.csproj" />
+    <ProjectReference Include="..\MyLibrary\MyLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="NumberService\" />
